@@ -70,6 +70,10 @@ export class DatabaseStorage implements IStorage {
       return newProgress;
     }
   }
+
+  async resetUserProgress(userId: string): Promise<void> {
+    await db.delete(progress).where(eq(progress.userId, userId));
+  }
 }
 
 export const storage = new DatabaseStorage();

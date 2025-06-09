@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PixelButton from '@/components/PixelButton';
 import ProgressBar from '@/components/ProgressBar';
+import ResetProgressModal from '@/components/ResetProgressModal';
 import { levels } from '@/data/levels';
 import { useProgress } from '@/hooks/useProgress';
 
@@ -10,7 +11,8 @@ interface LevelScreenProps {
 
 export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
-  const { isLevelCompleted, isLevelUnlocked, getCompletedCount } = useProgress();
+  const [showResetModal, setShowResetModal] = useState(false);
+  const { isLevelCompleted, isLevelUnlocked, getCompletedCount, resetProgress, isResetting } = useProgress();
 
   const completedCount = getCompletedCount();
   const totalLevels = levels.length;
@@ -29,6 +31,11 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
 
   const hideSelectedLevel = () => {
     setSelectedLevel(null);
+  };
+
+  const handleResetProgress = () => {
+    resetProgress();
+    setShowResetModal(false);
   };
 
   const getLevelNodeClass = (levelId: number) => {
@@ -65,6 +72,14 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
             <span className="text-undertale-green">
               {completedCount}/{totalLevels}
             </span>
+            <PixelButton
+              onClick={() => setShowResetModal(true)}
+              variant="danger"
+              className="text-xs ml-4"
+              disabled={isResetting || completedCount === 0}
+            >
+              {isResetting ? "СБРОС..." : "СБРОСИТЬ"}
+            </PixelButton>
           </div>
         </div>
       </div>

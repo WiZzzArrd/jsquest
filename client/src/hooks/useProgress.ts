@@ -89,8 +89,27 @@ export function useProgress() {
     return Object.values(progress).filter(Boolean).length;
   };
 
+  const resetProgressMutation = useMutation({
+    mutationFn: async () => {
+      try {
+        await apiRequest('DELETE', '/api/progress');
+      } catch {
+        // Fallback to local storage
+        setLocalProgress({});
+        return {};
+      }
+    },
+    onSuccess: () => {
+      queryClient.setQueryData(['/api/progress'], {});
+    },
+  });
+
   const completeLevel = (levelId: number) => {
     completeLevelMutation.mutate(levelId);
+  };
+
+  const resetProgress = () => {
+    resetProgressMutation.mutate();
   };
 
   return {
@@ -99,6 +118,8 @@ export function useProgress() {
     isLevelUnlocked,
     getCompletedCount,
     completeLevel,
+    resetProgress,
     isLoading: completeLevelMutation.isPending,
+    isResetting: resetProgressMutation.isPending,
   };
 }

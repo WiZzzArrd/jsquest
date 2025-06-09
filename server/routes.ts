@@ -29,6 +29,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Reset user progress
+  app.delete("/api/progress", async (req, res) => {
+    try {
+      const userId = "anonymous";
+      await storage.resetUserProgress(userId);
+      res.json({ message: "Progress reset successfully" });
+    } catch (error) {
+      console.error("Error resetting progress:", error);
+      res.status(500).json({ message: "Failed to reset progress" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
