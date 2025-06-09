@@ -57,10 +57,10 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
       <div className="pixel-border bg-undertale-panel p-4 m-4">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl text-undertale-yellow font-bold">
-            * Choose Your Path *
+            * Выберите свой путь *
           </h2>
           <div className="flex items-center space-x-4">
-            <span className="text-sm text-white">Progress:</span>
+            <span className="text-sm text-white">Прогресс:</span>
             <ProgressBar current={completedCount} total={totalLevels} />
             <span className="text-undertale-green">
               {completedCount}/{totalLevels}
@@ -99,10 +99,10 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
           </p>
           <div className="flex space-x-4">
             <PixelButton onClick={handleStartLevel} variant="success">
-              START LEVEL
+              НАЧАТЬ УРОВЕНЬ
             </PixelButton>
             <PixelButton onClick={hideSelectedLevel} variant="secondary">
-              BACK
+              НАЗАД
             </PixelButton>
           </div>
         </div>

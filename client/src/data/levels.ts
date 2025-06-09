@@ -648,38 +648,28 @@ for (const student of students) {
 const classAverage = classTotal / students.length;
 console.log("Средний балл класса: " + classAverage);`,
     solution: `const students = [
-  { name: "Alice", scores: [85, 92, 78, 96] },
-  { name: "Bob", scores: [45, 67, 58, 72] }
+  { name: "Алиса", scores: [85, 92, 78, 96] },
+  { name: "Боб", scores: [45, 67, 58, 72] }
 ];
 
 function calculateAverage(scores) {
-  let sum = 0;
+  let total = 0;
   for (const score of scores) {
-    sum += score;
+    total += score;
   }
-  return sum / scores.length;
+  return total / scores.length;
 }
 
 function getLetterGrade(average) {
-  if (average >= 90) {
-    return "A";
-  } else if (average >= 80) {
-    return "B";
-  } else if (average >= 70) {
-    return "C";
-  } else if (average >= 60) {
-    return "D";
-  } else {
-    return "F";
-  }
+  if (average >= 90) return "A";
+  if (average >= 80) return "B";
+  if (average >= 70) return "C";
+  if (average >= 60) return "D";
+  return "F";
 }
 
 function getPassStatus(average) {
-  if (average >= 70) {
-    return "Pass";
-  } else {
-    return "Fail";
-  }
+  return average >= 70 ? "Сдал" : "Не сдал";
 }
 
 let classTotal = 0;
@@ -688,17 +678,18 @@ for (const student of students) {
   const grade = getLetterGrade(average);
   const status = getPassStatus(average);
   
-  console.log(\`Student: \${student.name}, Grade: \${grade}, Status: \${status}\`);
+  console.log(\`Студент: \${student.name}, Оценка: \${grade}, Статус: \${status}\`);
   classTotal += average;
 }
 
 const classAverage = classTotal / students.length;
-console.log("Class Average: " + classAverage);`,
+console.log("Средний балл класса: " + classAverage);`,
     hints: [
-      "💡 Use a loop to sum all scores, then divide by the length",
-      "💡 Use if-else statements to determine letter grades",
-      "💡 Compare the average to 70 for pass/fail status",
-      "💡 Don't forget to return values from your functions"
+      "💡 Используйте цикл для суммирования всех оценок в массиве, затем разделите на длину массива",
+      "💡 Используйте операторы if-else для определения буквенных оценок на основе диапазонов",
+      "💡 Используйте тернарный оператор или if-else для статуса сдал/не сдал",
+      "💡 Не забудьте использовать шаблонные литералы с ${} для интерполяции строк",
+      "💡 Убедитесь, что вычислили средний балл класса после обработки всех студентов"
     ]
   }
 ];

@@ -22,27 +22,27 @@ export default function SuccessModal({
       <div className="pixel-border bg-undertale-panel p-8 max-w-md text-center animate-level-unlock">
         <div className="text-4xl mb-4">🎉</div>
         <h3 className="text-2xl mb-4 text-undertale-yellow">
-          * Level Complete! *
+          * Уровень завершён! *
         </h3>
         <p className="mb-6">
-          Excellent work, brave programmer! You've mastered {levelName}.
+          Отличная работа, храбрый программист! Вы освоили {levelName}.
         </p>
         <div className="mb-6">
-          <div className="text-undertale-green">XP Gained: +100</div>
-          <div className="text-undertale-cyan">Achievement: {levelName} Master</div>
+          <div className="text-undertale-green">Получено опыта: +100</div>
+          <div className="text-undertale-cyan">Достижение: Мастер "{levelName}"</div>
         </div>
         <div className="flex gap-4 justify-center">
           {!isLastLevel ? (
             <PixelButton onClick={onNext} variant="success">
-              CONTINUE ADVENTURE
+              ПРОДОЛЖИТЬ ПРИКЛЮЧЕНИЕ
             </PixelButton>
           ) : (
             <PixelButton onClick={onClose} variant="warning">
-              CONGRATULATIONS!
+              ПОЗДРАВЛЯЕМ!
             </PixelButton>
           )}
           <PixelButton onClick={onClose} variant="secondary">
-            BACK TO LEVELS
+            НАЗАД К УРОВНЯМ
           </PixelButton>
         </div>
       </div>
