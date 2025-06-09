@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PixelButton from '@/components/PixelButton';
 import ProgressBar from '@/components/ProgressBar';
 import ResetProgressModal from '@/components/ResetProgressModal';
@@ -12,7 +12,12 @@ interface LevelScreenProps {
 export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
-  const { isLevelCompleted, isLevelUnlocked, getCompletedCount, resetProgress, isResetting } = useProgress();
+  const { isLevelCompleted, isLevelUnlocked, getCompletedCount, resetProgress, refreshProgress, isResetting } = useProgress();
+
+  // Обновляем прогресс при загрузке экрана
+  useEffect(() => {
+    refreshProgress();
+  }, [refreshProgress]);
 
   const completedCount = getCompletedCount();
   const totalLevels = levels.length;
@@ -74,14 +79,23 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
                 {completedCount}/{totalLevels}
               </span>
             </div>
-            <PixelButton
-              onClick={() => setShowResetModal(true)}
-              variant="danger"
-              className="text-xs"
-              disabled={isResetting || completedCount === 0}
-            >
-              {isResetting ? "СБРОС..." : "СБРОСИТЬ"}
-            </PixelButton>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <PixelButton
+                onClick={refreshProgress}
+                variant="primary"
+                className="text-xs"
+              >
+                ОБНОВИТЬ
+              </PixelButton>
+              <PixelButton
+                onClick={() => setShowResetModal(true)}
+                variant="danger"
+                className="text-xs"
+                disabled={isResetting || completedCount === 0}
+              >
+                {isResetting ? "СБРОС..." : "СБРОСИТЬ"}
+              </PixelButton>
+            </div>
           </div>
         </div>
       </div>

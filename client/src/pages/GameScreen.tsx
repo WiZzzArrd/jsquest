@@ -64,7 +64,7 @@ export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenP
 
   const checkSolution = () => {
     // Check if user has made meaningful changes from initial code
-    const normalizeCode = (codeStr) => codeStr.replace(/\s+/g, ' ').trim().toLowerCase();
+    const normalizeCode = (codeStr: string) => codeStr.replace(/\s+/g, ' ').trim().toLowerCase();
     const normalizedCode = normalizeCode(code);
     const normalizedInitial = normalizeCode(level.initialCode);
     const normalizedSolution = normalizeCode(level.solution);

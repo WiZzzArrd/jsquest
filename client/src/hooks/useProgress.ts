@@ -35,7 +35,7 @@ export function useProgress() {
           // Convert array to object for easier lookup
           const progressMap: Record<number, boolean> = {};
           data.forEach((p: Progress) => {
-            progressMap[p.levelId] = p.completed;
+            progressMap[p.levelId] = Boolean(p.completed);
           });
           return progressMap;
         }
@@ -112,6 +112,10 @@ export function useProgress() {
     resetProgressMutation.mutate();
   };
 
+  const refreshProgress = () => {
+    queryClient.invalidateQueries({ queryKey: ['/api/progress'] });
+  };
+
   return {
     progress,
     isLevelCompleted,
@@ -119,6 +123,7 @@ export function useProgress() {
     getCompletedCount,
     completeLevel,
     resetProgress,
+    refreshProgress,
     isLoading: completeLevelMutation.isPending,
     isResetting: resetProgressMutation.isPending,
   };
