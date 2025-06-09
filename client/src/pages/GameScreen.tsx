@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PixelButton from '@/components/PixelButton';
 import SuccessModal from '@/components/SuccessModal';
 import { levels } from '@/data/levels';
@@ -11,10 +11,22 @@ interface GameScreenProps {
 }
 
 export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenProps) {
-  const [code, setCode] = useState(levels[levelId]?.initialCode || '');
+  const [code, setCode] = useState('');
   const [console, setConsole] = useState<string[]>(['Вывод консоли будет отображаться здесь...']);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [solutionShown, setSolutionShown] = useState(false);
   const { completeLevel, isLevelCompleted } = useProgress();
+
+  // Reset code when level changes
+  useEffect(() => {
+    const level = levels[levelId];
+    if (level) {
+      setCode(level.initialCode || '');
+      setConsole(['Вывод консоли будет отображаться здесь...']);
+      setShowSuccess(false);
+      setSolutionShown(false);
+    }
+  }, [levelId]);
 
   const level = levels[levelId];
   
@@ -71,13 +83,17 @@ export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenP
     const isCorrect = correctElements >= Math.floor(requiredElements * 0.8); // 80% match threshold
     
     if (isCorrect) {
-      setConsole(['✓ Решение правильное! Отлично!']);
-      setTimeout(() => {
-        if (!isLevelCompleted(levelId)) {
-          completeLevel(levelId);
-        }
-        setShowSuccess(true);
-      }, 1000);
+      if (solutionShown) {
+        setConsole(['⚠️ Вы использовали готовое решение! Попробуйте написать код самостоятельно для лучшего обучения.']);
+      } else {
+        setConsole(['✓ Решение правильное! Отлично!']);
+        setTimeout(() => {
+          if (!isLevelCompleted(levelId)) {
+            completeLevel(levelId);
+          }
+          setShowSuccess(true);
+        }, 1000);
+      }
     } else {
       setConsole(['✗ Решение неправильное. Проверьте синтаксис и попробуйте снова.']);
     }
@@ -86,6 +102,12 @@ export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenP
   const getHint = () => {
     const randomHint = level.hints[Math.floor(Math.random() * level.hints.length)];
     setConsole([randomHint]);
+  };
+
+  const showSolution = () => {
+    setCode(level.solution);
+    setSolutionShown(true);
+    setConsole(['📖 Решение показано. Изучите код и попробуйте написать подобное самостоятельно на следующем уровне.']);
   };
 
   const handleNextLevel = () => {
@@ -149,7 +171,7 @@ export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenP
 
         {/* Input Panel */}
         <div className="pixel-border bg-undertale-panel p-4">
-          <div className="flex items-center space-x-4 mb-4">
+          <div className="flex flex-wrap items-center gap-2 mb-4">
             <PixelButton onClick={runCode} variant="success">
               ЗАПУСТИТЬ КОД
             </PixelButton>
@@ -158,6 +180,9 @@ export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenP
             </PixelButton>
             <PixelButton onClick={getHint} variant="primary">
               ПОДСКАЗКА
+            </PixelButton>
+            <PixelButton onClick={showSolution} variant="danger">
+              ПОКАЗАТЬ РЕШЕНИЕ
             </PixelButton>
             <PixelButton onClick={onBack} variant="secondary">
               НАЗАД
@@ -171,7 +196,9 @@ export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenP
                 ${line.includes('✓') ? 'text-undertale-green' : ''}
                 ${line.includes('✗') || line.includes('Error') ? 'text-undertale-red' : ''}
                 ${line.includes('💡') ? 'text-undertale-cyan' : ''}
-                ${!line.includes('✓') && !line.includes('✗') && !line.includes('Error') && !line.includes('💡') ? 'text-gray-400' : ''}
+                ${line.includes('📖') ? 'text-undertale-yellow' : ''}
+                ${line.includes('⚠️') ? 'text-undertale-red' : ''}
+                ${!line.includes('✓') && !line.includes('✗') && !line.includes('Error') && !line.includes('💡') && !line.includes('📖') && !line.includes('⚠️') ? 'text-gray-400' : ''}
               `}>
                 {line}
               </div>
