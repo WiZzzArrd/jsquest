@@ -1,6 +1,6 @@
 import { users, progress, type User, type InsertUser, type Progress, type InsertProgress } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -39,10 +39,10 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(progress)
       .where(
-        eq(progress.userId, insertProgress.userId)
-      )
-      .where(
-        eq(progress.levelId, insertProgress.levelId)
+        and(
+          eq(progress.userId, insertProgress.userId),
+          eq(progress.levelId, insertProgress.levelId)
+        )
       );
 
     if (existing) {

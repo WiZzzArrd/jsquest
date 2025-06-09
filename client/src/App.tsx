@@ -28,7 +28,7 @@ function App() {
 
   const handleNextLevel = () => {
     const nextLevel = currentLevel + 1;
-    if (nextLevel < 10) { // We have 10 levels (0-9)
+    if (nextLevel < 30) { // We have 30 levels (0-29)
       setCurrentLevel(nextLevel);
     } else {
       setCurrentScreen('levels');

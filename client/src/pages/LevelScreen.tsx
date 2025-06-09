@@ -70,21 +70,59 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
       </div>
 
       {/* Level Map Container */}
-      <div className="flex-1 overflow-x-auto overflow-y-hidden p-4">
-        <div className="flex items-center space-x-12 h-full min-w-max px-8">
-          {levels.map((level, index) => (
-            <div key={level.id} className="flex items-center space-x-12">
-              <div
-                className={getLevelNodeClass(level.id)}
-                onClick={() => handleLevelClick(level.id)}
-              >
-                {getLevelNodeContent(level.id)}
+      <div className="flex-1 overflow-y-auto p-4">
+        {/* Группа 1: Базовые уровни (0-9) */}
+        <div className="mb-8">
+          <h3 className="text-lg text-undertale-cyan mb-4 font-bold">🟡 Основы JavaScript</h3>
+          <div className="flex flex-wrap gap-4">
+            {levels.slice(0, 10).map((level, index) => (
+              <div key={level.id} className="flex items-center">
+                <div
+                  className={getLevelNodeClass(level.id)}
+                  onClick={() => handleLevelClick(level.id)}
+                >
+                  {getLevelNodeContent(level.id)}
+                </div>
+                {index < 9 && <div className="w-4 h-1 bg-white ml-4"></div>}
               </div>
-              {index < levels.length - 1 && (
-                <div className="w-8 h-1 bg-white"></div>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Группа 2: Средние уровни (10-19) */}
+        <div className="mb-8">
+          <h3 className="text-lg text-undertale-purple mb-4 font-bold">🟠 Средний уровень</h3>
+          <div className="flex flex-wrap gap-4">
+            {levels.slice(10, 20).map((level, index) => (
+              <div key={level.id} className="flex items-center">
+                <div
+                  className={getLevelNodeClass(level.id)}
+                  onClick={() => handleLevelClick(level.id)}
+                >
+                  {getLevelNodeContent(level.id)}
+                </div>
+                {index < 9 && <div className="w-4 h-1 bg-white ml-4"></div>}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Группа 3: Продвинутые уровни (20-29) */}
+        <div className="mb-8">
+          <h3 className="text-lg text-undertale-red mb-4 font-bold">🔴 Продвинутый уровень</h3>
+          <div className="flex flex-wrap gap-4">
+            {levels.slice(20, 30).map((level, index) => (
+              <div key={level.id} className="flex items-center">
+                <div
+                  className={getLevelNodeClass(level.id)}
+                  onClick={() => handleLevelClick(level.id)}
+                >
+                  {getLevelNodeContent(level.id)}
+                </div>
+                {index < 9 && <div className="w-4 h-1 bg-white ml-4"></div>}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
