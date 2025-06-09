@@ -61,21 +61,23 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
   return (
     <div className="min-h-screen bg-undertale-dark flex flex-col">
       {/* Header */}
-      <div className="pixel-border bg-undertale-panel p-4 m-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl text-undertale-yellow font-bold">
+      <div className="pixel-border bg-undertale-panel p-4 m-2 md:m-4">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0">
+          <h2 className="text-xl md:text-2xl text-undertale-yellow font-bold text-center md:text-left">
             * Выберите свой путь *
           </h2>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-white">Прогресс:</span>
-            <ProgressBar current={completedCount} total={totalLevels} />
-            <span className="text-undertale-green">
-              {completedCount}/{totalLevels}
-            </span>
+          <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-white">Прогресс:</span>
+              <ProgressBar current={completedCount} total={totalLevels} />
+              <span className="text-undertale-green text-sm">
+                {completedCount}/{totalLevels}
+              </span>
+            </div>
             <PixelButton
               onClick={() => setShowResetModal(true)}
               variant="danger"
-              className="text-xs ml-4"
+              className="text-xs"
               disabled={isResetting || completedCount === 0}
             >
               {isResetting ? "СБРОС..." : "СБРОСИТЬ"}
@@ -85,56 +87,50 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
       </div>
 
       {/* Level Map Container */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-2 md:p-4">
         {/* Группа 1: Базовые уровни (0-9) */}
-        <div className="mb-8">
-          <h3 className="text-lg text-undertale-cyan mb-4 font-bold">🟡 Основы JavaScript</h3>
-          <div className="flex flex-wrap gap-4">
-            {levels.slice(0, 10).map((level, index) => (
-              <div key={level.id} className="flex items-center">
-                <div
-                  className={getLevelNodeClass(level.id)}
-                  onClick={() => handleLevelClick(level.id)}
-                >
-                  {getLevelNodeContent(level.id)}
-                </div>
-                {index < 9 && <div className="w-4 h-1 bg-white ml-4"></div>}
+        <div className="mb-6 md:mb-8">
+          <h3 className="text-base md:text-lg text-undertale-cyan mb-3 md:mb-4 font-bold text-center md:text-left">🟡 Основы JavaScript</h3>
+          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-4 justify-items-center">
+            {levels.slice(0, 10).map((level) => (
+              <div
+                key={level.id}
+                className={getLevelNodeClass(level.id)}
+                onClick={() => handleLevelClick(level.id)}
+              >
+                {getLevelNodeContent(level.id)}
               </div>
             ))}
           </div>
         </div>
 
         {/* Группа 2: Средние уровни (10-19) */}
-        <div className="mb-8">
-          <h3 className="text-lg text-undertale-purple mb-4 font-bold">🟠 Средний уровень</h3>
-          <div className="flex flex-wrap gap-4">
-            {levels.slice(10, 20).map((level, index) => (
-              <div key={level.id} className="flex items-center">
-                <div
-                  className={getLevelNodeClass(level.id)}
-                  onClick={() => handleLevelClick(level.id)}
-                >
-                  {getLevelNodeContent(level.id)}
-                </div>
-                {index < 9 && <div className="w-4 h-1 bg-white ml-4"></div>}
+        <div className="mb-6 md:mb-8">
+          <h3 className="text-base md:text-lg text-undertale-purple mb-3 md:mb-4 font-bold text-center md:text-left">🟠 Средний уровень</h3>
+          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-4 justify-items-center">
+            {levels.slice(10, 20).map((level) => (
+              <div
+                key={level.id}
+                className={getLevelNodeClass(level.id)}
+                onClick={() => handleLevelClick(level.id)}
+              >
+                {getLevelNodeContent(level.id)}
               </div>
             ))}
           </div>
         </div>
 
         {/* Группа 3: Продвинутые уровни (20-29) */}
-        <div className="mb-8">
-          <h3 className="text-lg text-undertale-red mb-4 font-bold">🔴 Продвинутый уровень</h3>
-          <div className="flex flex-wrap gap-4">
-            {levels.slice(20, 30).map((level, index) => (
-              <div key={level.id} className="flex items-center">
-                <div
-                  className={getLevelNodeClass(level.id)}
-                  onClick={() => handleLevelClick(level.id)}
-                >
-                  {getLevelNodeContent(level.id)}
-                </div>
-                {index < 9 && <div className="w-4 h-1 bg-white ml-4"></div>}
+        <div className="mb-6 md:mb-8">
+          <h3 className="text-base md:text-lg text-undertale-red mb-3 md:mb-4 font-bold text-center md:text-left">🔴 Продвинутый уровень</h3>
+          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-4 justify-items-center">
+            {levels.slice(20, 30).map((level) => (
+              <div
+                key={level.id}
+                className={getLevelNodeClass(level.id)}
+                onClick={() => handleLevelClick(level.id)}
+              >
+                {getLevelNodeContent(level.id)}
               </div>
             ))}
           </div>
@@ -143,18 +139,18 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
 
       {/* Level Info Panel */}
       {selectedLevel !== null && (
-        <div className="pixel-border bg-undertale-panel p-4 m-4">
-          <h3 className="text-xl mb-2 text-undertale-cyan font-bold">
+        <div className="pixel-border bg-undertale-panel p-3 md:p-4 m-2 md:m-4">
+          <h3 className="text-lg md:text-xl mb-2 text-undertale-cyan font-bold text-center md:text-left">
             {levels[selectedLevel].name}
           </h3>
-          <p className="mb-4 text-white">
+          <p className="mb-4 text-white text-sm md:text-base text-center md:text-left">
             {levels[selectedLevel].description}
           </p>
-          <div className="flex space-x-4">
-            <PixelButton onClick={handleStartLevel} variant="success">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <PixelButton onClick={handleStartLevel} variant="success" className="flex-1 sm:flex-none">
               НАЧАТЬ УРОВЕНЬ
             </PixelButton>
-            <PixelButton onClick={hideSelectedLevel} variant="secondary">
+            <PixelButton onClick={hideSelectedLevel} variant="secondary" className="flex-1 sm:flex-none">
               НАЗАД
             </PixelButton>
           </div>
