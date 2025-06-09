@@ -63,37 +63,68 @@ export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenP
   };
 
   const checkSolution = () => {
-    // Simple solution checking logic
-    const codeLines = code.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-    const solutionLines = level.solution.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+    // Check if user has made meaningful changes from initial code
+    const normalizeCode = (codeStr) => codeStr.replace(/\s+/g, ' ').trim().toLowerCase();
+    const normalizedCode = normalizeCode(code);
+    const normalizedInitial = normalizeCode(level.initialCode);
+    const normalizedSolution = normalizeCode(level.solution);
     
-    // Check if the code contains key elements of the solution
-    let correctElements = 0;
-    const requiredElements = solutionLines.length;
+    // If code is identical to initial code, it's not solved
+    if (normalizedCode === normalizedInitial) {
+      setConsole(['✗ Вы не изменили код! Сначала исправьте ошибки или добавьте недостающие части.']);
+      return;
+    }
     
-    solutionLines.forEach(solutionLine => {
-      const hasMatch = codeLines.some(codeLine => {
-        // Simple string matching - in a real implementation, you'd use AST parsing
-        return codeLine.includes(solutionLine.replace(/\s+/g, ' ')) || 
-               codeLine.replace(/\s+/g, ' ') === solutionLine.replace(/\s+/g, ' ');
+    // Check if using shown solution
+    if (solutionShown && normalizedCode === normalizedSolution) {
+      setConsole(['⚠️ Вы использовали готовое решение! Попробуйте написать код самостоятельно для лучшего обучения.']);
+      return;
+    }
+    
+    // Level-specific validation logic
+    let isCorrect = false;
+    
+    if (levelId === 0) {
+      // First level: Check for specific fixes
+      const hasCorrectName = code.includes('let name = "Алекс"') || code.includes("let name = 'Алекс'");
+      const hasCorrectAge = code.includes('const age = 25');
+      const hasCorrectMessage = code.includes('console.log(message)');
+      const hasSemicolons = code.split(';').length >= 4; // At least 3 statements with semicolons
+      
+      isCorrect = hasCorrectName && hasCorrectAge && hasCorrectMessage && hasSemicolons;
+    } else if (levelId === 1) {
+      // Second level: Check for function implementation
+      const hasReturnStatement = code.includes('return a + b') || code.includes('return (a + b)');
+      const functionCallWorks = code.includes('add(5, 3)');
+      const hasConsoleLog = code.includes('console.log');
+      
+      isCorrect = hasReturnStatement && functionCallWorks && hasConsoleLog;
+    } else {
+      // For other levels, do more sophisticated checking
+      const codeLines = code.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+      const solutionLines = level.solution.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+      
+      let correctElements = 0;
+      const requiredElements = solutionLines.length;
+      
+      solutionLines.forEach(solutionLine => {
+        const hasMatch = codeLines.some(codeLine => {
+          return normalizeCode(codeLine) === normalizeCode(solutionLine);
+        });
+        if (hasMatch) correctElements++;
       });
-      if (hasMatch) correctElements++;
-    });
-    
-    const isCorrect = correctElements >= Math.floor(requiredElements * 0.8); // 80% match threshold
+      
+      isCorrect = correctElements >= Math.floor(requiredElements * 0.9); // 90% match threshold for other levels
+    }
     
     if (isCorrect) {
-      if (solutionShown) {
-        setConsole(['⚠️ Вы использовали готовое решение! Попробуйте написать код самостоятельно для лучшего обучения.']);
-      } else {
-        setConsole(['✓ Решение правильное! Отлично!']);
-        setTimeout(() => {
-          if (!isLevelCompleted(levelId)) {
-            completeLevel(levelId);
-          }
-          setShowSuccess(true);
-        }, 1000);
-      }
+      setConsole(['✓ Решение правильное! Отлично!']);
+      setTimeout(() => {
+        if (!isLevelCompleted(levelId)) {
+          completeLevel(levelId);
+        }
+        setShowSuccess(true);
+      }, 1000);
     } else {
       setConsole(['✗ Решение неправильное. Проверьте синтаксис и попробуйте снова.']);
     }
