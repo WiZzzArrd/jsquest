@@ -145,6 +145,13 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
           </div>
         </div>
       )}
+
+      <ResetProgressModal
+        isOpen={showResetModal}
+        onClose={() => setShowResetModal(false)}
+        onConfirm={handleResetProgress}
+        isLoading={isResetting}
+      />
     </div>
   );
 }

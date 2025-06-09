@@ -8,6 +8,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   getUserProgress(userId: string): Promise<Progress[]>;
   updateProgress(progress: InsertProgress): Promise<Progress>;
+  resetUserProgress(userId: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
