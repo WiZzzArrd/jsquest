@@ -14,209 +14,209 @@ export interface Level {
 export const levels: Level[] = [
   {
     id: 0,
-    name: "Variables & Data Types",
-    description: "Learn the fundamentals of storing and manipulating data in JavaScript.",
-    tutorial: `📖 Variables in JavaScript
+    name: "Переменные и типы данных",
+    description: "Изучите основы хранения и управления данными в JavaScript.",
+    tutorial: `📖 Переменные в JavaScript
 
-Variables are containers that store data values.
+Переменные — это контейнеры для хранения значений данных.
 
-Example:
-let name = "Hero";
+Пример:
+let name = "Герой";
 const age = 25;
 var score = 100;
 
-Use let for variables that can change.
-Use const for constants that won't change.
-Use var for older JavaScript (not recommended).
+Используйте let для переменных, которые могут изменяться.
+Используйте const для констант, которые не изменяются.
+Используйте var для старого JavaScript (не рекомендуется).
 
-Data Types:
-• String: "Hello World"
-• Number: 42, 3.14
-• Boolean: true, false
-• Undefined: undefined
-• Null: null`,
-    taskTitle: "* Fix the Broken Code *",
-    taskDescription: "The variables below have errors. Fix them to make the code work properly!",
-    expectedOutput: "Hello, my name is Alex and I am 25 years old.",
-    initialCode: `let nam = "Alex;
+Типы данных:
+• Строка: "Привет мир"
+• Число: 42, 3.14
+• Логический: true, false
+• Неопределённый: undefined
+• Нулевой: null`,
+    taskTitle: "* Исправьте сломанный код *",
+    taskDescription: "В переменных ниже есть ошибки. Исправьте их, чтобы код работал правильно!",
+    expectedOutput: "Привет, меня зовут Алекс и мне 25 лет.",
+    initialCode: `let nam = "Алекс;
 const age = 25
-var message = "Hello, my name is " + name + " and I am " + age + " years old."
+var message = "Привет, меня зовут " + name + " и мне " + age + " лет."
 console.log(messag);`,
-    solution: `let name = "Alex";
+    solution: `let name = "Алекс";
 const age = 25;
-var message = "Hello, my name is " + name + " and I am " + age + " years old.";
+var message = "Привет, меня зовут " + name + " и мне " + age + " лет.";
 console.log(message);`,
     hints: [
-      "💡 Check your variable names - they should match when used later",
-      "💡 Don't forget semicolons at the end of statements",
-      "💡 Make sure your strings are properly quoted",
-      "💡 Check the console.log statement for typos"
+      "💡 Проверьте имена переменных - они должны совпадать при использовании",
+      "💡 Не забывайте точки с запятой в конце операторов",
+      "💡 Убедитесь, что строки правильно заключены в кавычки",
+      "💡 Проверьте оператор console.log на опечатки"
     ]
   },
   {
     id: 1,
-    name: "Functions",
-    description: "Create reusable blocks of code that perform specific tasks.",
-    tutorial: `📖 Functions in JavaScript
+    name: "Функции",
+    description: "Создавайте переиспользуемые блоки кода для выполнения конкретных задач.",
+    tutorial: `📖 Функции в JavaScript
 
-Functions are reusable blocks of code that perform specific tasks.
+Функции — это переиспользуемые блоки кода для выполнения конкретных задач.
 
-Syntax:
+Синтаксис:
 function functionName(parameters) {
-  // code to execute
+  // код для выполнения
   return result;
 }
 
-Example:
+Пример:
 function greet(name) {
-  return "Hello, " + name + "!";
+  return "Привет, " + name + "!";
 }
 
-Arrow Functions:
+Стрелочные функции:
 const add = (a, b) => a + b;
 
-Function calls:
-greet("Alice"); // Returns: "Hello, Alice!"
-add(5, 3); // Returns: 8`,
-    taskTitle: "* Create a Calculator Function *",
-    taskDescription: "Create a function that takes two numbers and returns their sum.",
-    expectedOutput: "The sum of 5 and 3 is: 8",
-    initialCode: `// Create a function called 'add' that takes two parameters
+Вызов функций:
+greet("Алиса"); // Возвращает: "Привет, Алиса!"
+add(5, 3); // Возвращает: 8`,
+    taskTitle: "* Создайте функцию калькулятора *",
+    taskDescription: "Создайте функцию, которая принимает два числа и возвращает их сумму.",
+    expectedOutput: "Сумма 5 и 3 равна: 8",
+    initialCode: `// Создайте функцию с именем 'add', которая принимает два параметра
 function add(a, b) {
-  // Return the sum of a and b
+  // Верните сумму a и b
   
 }
 
-// Call the function and store the result
+// Вызовите функцию и сохраните результат
 const result = add(5, 3);
-console.log("The sum of 5 and 3 is: " + result);`,
+console.log("Сумма 5 и 3 равна: " + result);`,
     solution: `function add(a, b) {
   return a + b;
 }
 
 const result = add(5, 3);
-console.log("The sum of 5 and 3 is: " + result);`,
+console.log("Сумма 5 и 3 равна: " + result);`,
     hints: [
-      "💡 Use the 'return' keyword to send a value back from the function",
-      "💡 Add the two parameters together using the + operator",
-      "💡 Make sure your function has the correct name",
-      "💡 Don't forget to return the result from your function"
+      "💡 Используйте ключевое слово 'return' для возврата значения из функции",
+      "💡 Сложите два параметра с помощью оператора +",
+      "💡 Убедитесь, что ваша функция имеет правильное имя",
+      "💡 Не забудьте вернуть результат из вашей функции"
     ]
   },
   {
     id: 2,
-    name: "Arrays",
-    description: "Store multiple values in a single variable using arrays.",
-    tutorial: `📖 Arrays in JavaScript
+    name: "Массивы",
+    description: "Храните несколько значений в одной переменной, используя массивы.",
+    tutorial: `📖 Массивы в JavaScript
 
-Arrays store multiple values in a single variable.
+Массивы хранят несколько значений в одной переменной.
 
-Creating Arrays:
-const fruits = ["apple", "banana", "orange"];
+Создание массивов:
+const fruits = ["яблоко", "банан", "апельсин"];
 const numbers = [1, 2, 3, 4, 5];
 
-Accessing Elements:
-fruits[0] // "apple" (first element)
-fruits[1] // "banana" (second element)
+Доступ к элементам:
+fruits[0] // "яблоко" (первый элемент)
+fruits[1] // "банан" (второй элемент)
 
-Array Properties:
-fruits.length // 3 (number of elements)
+Свойства массива:
+fruits.length // 3 (количество элементов)
 
-Common Methods:
-• push() - adds to end
-• pop() - removes from end
-• shift() - removes from start
-• unshift() - adds to start`,
-    taskTitle: "* Array Manipulation *",
-    taskDescription: "Fix the code to properly access and modify the array.",
-    expectedOutput: "First fruit: apple, Last fruit: grape, Total fruits: 4",
-    initialCode: `const fruits = ["apple", "banana", "orange"];
+Основные методы:
+• push() - добавляет в конец
+• pop() - удаляет с конца
+• shift() - удаляет с начала
+• unshift() - добавляет в начало`,
+    taskTitle: "* Работа с массивами *",
+    taskDescription: "Исправьте код для правильного доступа и изменения массива.",
+    expectedOutput: "Первый фрукт: яблоко, Последний фрукт: виноград, Всего фруктов: 4",
+    initialCode: `const fruits = ["яблоко", "банан", "апельсин"];
 
-// Add a new fruit to the end
-fruits.push("grape");
+// Добавить новый фрукт в конец
+fruits.push("виноград");
 
-// Get the first fruit
+// Получить первый фрукт
 const firstFruit = fruits[];
 
-// Get the last fruit  
+// Получить последний фрукт  
 const lastFruit = fruits[fruits.length];
 
-// Get the total number of fruits
+// Получить общее количество фруктов
 const totalFruits = fruits.length;
 
-console.log("First fruit: " + firstFruit + ", Last fruit: " + lastFruit + ", Total fruits: " + totalFruits);`,
-    solution: `const fruits = ["apple", "banana", "orange"];
+console.log("Первый фрукт: " + firstFruit + ", Последний фрукт: " + lastFruit + ", Всего фруктов: " + totalFruits);`,
+    solution: `const fruits = ["яблоко", "банан", "апельсин"];
 
-fruits.push("grape");
+fruits.push("виноград");
 
 const firstFruit = fruits[0];
 const lastFruit = fruits[fruits.length - 1];
 const totalFruits = fruits.length;
 
-console.log("First fruit: " + firstFruit + ", Last fruit: " + lastFruit + ", Total fruits: " + totalFruits);`,
+console.log("Первый фрукт: " + firstFruit + ", Последний фрукт: " + lastFruit + ", Всего фруктов: " + totalFruits);`,
     hints: [
-      "💡 Array indexes start at 0, so the first element is at index 0",
-      "💡 The last element is at index (length - 1)",
-      "💡 Don't forget to specify an index when accessing array elements",
-      "💡 Use square brackets [] to access array elements"
+      "💡 Индексы массива начинаются с 0, поэтому первый элемент имеет индекс 0",
+      "💡 Последний элемент имеет индекс (length - 1)",
+      "💡 Не забудьте указать индекс при доступе к элементам массива",
+      "💡 Используйте квадратные скобки [] для доступа к элементам массива"
     ]
   },
   {
     id: 3,
-    name: "Objects",
-    description: "Group related data and functions together using objects.",
-    tutorial: `📖 Objects in JavaScript
+    name: "Объекты",
+    description: "Группируйте связанные данные и функции вместе, используя объекты.",
+    tutorial: `📖 Объекты в JavaScript
 
-Objects group related data and functions together.
+Объекты группируют связанные данные и функции вместе.
 
-Creating Objects:
+Создание объектов:
 const person = {
-  name: "John",
+  name: "Иван",
   age: 30,
-  city: "New York"
+  city: "Москва"
 };
 
-Accessing Properties:
-person.name // "John"
+Доступ к свойствам:
+person.name // "Иван"
 person["age"] // 30
 
-Adding Properties:
-person.job = "Developer";
+Добавление свойств:
+person.job = "Разработчик";
 
-Methods in Objects:
+Методы в объектах:
 const car = {
   brand: "Toyota",
   start: function() {
-    return "Car started!";
+    return "Машина заведена!";
   }
 };`,
-    taskTitle: "* Object Properties *",
-    taskDescription: "Fix the code to properly access object properties and methods.",
-    expectedOutput: "Hero: Alice, Level: 5, Weapon: sword, Action: Attack with sword!",
+    taskTitle: "* Свойства объектов *",
+    taskDescription: "Исправьте код для правильного доступа к свойствам и методам объекта.",
+    expectedOutput: "Герой: Алиса, Уровень: 5, Оружие: меч, Действие: Атака мечом!",
     initialCode: `const hero = {
-  name: "Alice",
+  name: "Алиса",
   level: 5,
-  weapon: "sword",
+  weapon: "меч",
   attack: function() {
-    return "Attack with " + this.weapon + "!";
+    return "Атака " + this.weapon + "!";
   }
 };
 
-// Access the hero's properties
+// Получить доступ к свойствам героя
 const heroName = hero.;
 const heroLevel = hero[""];
 const heroWeapon = hero.weapon;
 
-// Call the attack method
+// Вызвать метод атаки
 const action = hero.();
 
-console.log("Hero: " + heroName + ", Level: " + heroLevel + ", Weapon: " + heroWeapon + ", Action: " + action);`,
+console.log("Герой: " + heroName + ", Уровень: " + heroLevel + ", Оружие: " + heroWeapon + ", Действие: " + action);`,
     solution: `const hero = {
-  name: "Alice",
+  name: "Алиса",
   level: 5,
-  weapon: "sword",
+  weapon: "меч",
   attack: function() {
-    return "Attack with " + this.weapon + "!";
+    return "Атака " + this.weapon + "!";
   }
 };
 
@@ -226,131 +226,131 @@ const heroWeapon = hero.weapon;
 
 const action = hero.attack();
 
-console.log("Hero: " + heroName + ", Level: " + heroLevel + ", Weapon: " + heroWeapon + ", Action: " + action);`,
+console.log("Герой: " + heroName + ", Уровень: " + heroLevel + ", Оружие: " + heroWeapon + ", Действие: " + action);`,
     hints: [
-      "💡 Use dot notation (object.property) to access properties",
-      "💡 Use bracket notation (object['property']) with quotes for property names",
-      "💡 Don't forget parentheses () when calling methods",
-      "💡 Make sure to complete the property access statements"
+      "💡 Используйте точечную нотацию (object.property) для доступа к свойствам",
+      "💡 Используйте скобочную нотацию (object['property']) с кавычками для имён свойств",
+      "💡 Не забывайте скобки () при вызове методов",
+      "💡 Убедитесь, что завершили операторы доступа к свойствам"
     ]
   },
   {
     id: 4,
-    name: "Conditionals",
-    description: "Make decisions in your code using if/else statements.",
-    tutorial: `📖 Conditionals in JavaScript
+    name: "Условные операторы",
+    description: "Принимайте решения в коде, используя операторы if/else.",
+    tutorial: `📖 Условные операторы в JavaScript
 
-Conditionals allow your code to make decisions.
+Условные операторы позволяют коду принимать решения.
 
-If Statement:
-if (condition) {
-  // code to run if true
+Оператор If:
+if (условие) {
+  // код для выполнения, если условие истинно
 }
 
 If-Else:
-if (condition) {
-  // code if true
+if (условие) {
+  // код, если условие истинно
 } else {
-  // code if false
+  // код, если условие ложно
 }
 
 If-Else If:
-if (condition1) {
-  // code if condition1 is true
-} else if (condition2) {
-  // code if condition2 is true
+if (условие1) {
+  // код, если условие1 истинно
+} else if (условие2) {
+  // код, если условие2 истинно
 } else {
-  // code if all conditions are false
+  // код, если все условия ложны
 }
 
-Comparison Operators:
-• === (equal to)
-• !== (not equal to)
-• > (greater than)
-• < (less than)
-• >= (greater than or equal)
-• <= (less than or equal)`,
-    taskTitle: "* Age Category Checker *",
-    taskDescription: "Complete the conditional logic to categorize ages correctly.",
-    expectedOutput: "Age 25: You are an adult.",
+Операторы сравнения:
+• === (равно)
+• !== (не равно)
+• > (больше)
+• < (меньше)
+• >= (больше или равно)
+• <= (меньше или равно)`,
+    taskTitle: "* Проверка возрастной категории *",
+    taskDescription: "Завершите условную логику для правильной категоризации возраста.",
+    expectedOutput: "Возраст 25: Вы взрослый.",
     initialCode: `const age = 25;
 let category;
 
 if (age < 13) {
-  category = "You are a child.";
+  category = "Вы ребёнок.";
 } else if (age < 20) {
-  category = "You are a teenager.";
+  category = "Вы подросток.";
 } else if (age < 60) {
-  category = "You are an adult.";
+  category = "Вы взрослый.";
 } {
-  category = "You are a senior.";
+  category = "Вы пожилой.";
 }
 
-console.log("Age " + age + ": " + category);`,
+console.log("Возраст " + age + ": " + category);`,
     solution: `const age = 25;
 let category;
 
 if (age < 13) {
-  category = "You are a child.";
+  category = "Вы ребёнок.";
 } else if (age < 20) {
-  category = "You are a teenager.";
+  category = "Вы подросток.";
 } else if (age < 60) {
-  category = "You are an adult.";
+  category = "Вы взрослый.";
 } else {
-  category = "You are a senior.";
+  category = "Вы пожилой.";
 }
 
-console.log("Age " + age + ": " + category);`,
+console.log("Возраст " + age + ": " + category);`,
     hints: [
-      "💡 The final condition should be 'else', not just a plain block",
-      "💡 Each condition checks if age is less than a certain number",
-      "💡 Make sure all your if-else statements are properly structured",
-      "💡 The 'else' keyword handles all remaining cases"
+      "💡 Финальное условие должно быть 'else', а не просто блок",
+      "💡 Каждое условие проверяет, меньше ли возраст определённого числа",
+      "💡 Убедитесь, что все ваши операторы if-else правильно структурированы",
+      "💡 Ключевое слово 'else' обрабатывает все остальные случаи"
     ]
   },
   {
     id: 5,
-    name: "Loops",
-    description: "Repeat code efficiently using for and while loops.",
-    tutorial: `📖 Loops in JavaScript
+    name: "Циклы",
+    description: "Эффективно повторяйте код, используя циклы for и while.",
+    tutorial: `📖 Циклы в JavaScript
 
-Loops repeat code multiple times.
+Циклы повторяют код множество раз.
 
-For Loop:
+Цикл For:
 for (let i = 0; i < 5; i++) {
   console.log(i); // 0, 1, 2, 3, 4
 }
 
-While Loop:
+Цикл While:
 let count = 0;
 while (count < 3) {
   console.log(count);
   count++;
 }
 
-For...of Loop (arrays):
-const fruits = ["apple", "banana"];
+Цикл For...of (для массивов):
+const fruits = ["яблоко", "банан"];
 for (const fruit of fruits) {
   console.log(fruit);
 }
 
-Loop Components:
-• Initialization: let i = 0
-• Condition: i < 5
-• Increment: i++`,
-    taskTitle: "* Number Counter *",
-    taskDescription: "Fix the loop to count from 1 to 5 and calculate the sum.",
-    expectedOutput: "Numbers: 1 2 3 4 5 Sum: 15",
+Компоненты цикла:
+• Инициализация: let i = 0
+• Условие: i < 5
+• Приращение: i++`,
+    taskTitle: "* Счётчик чисел *",
+    taskDescription: "Исправьте цикл для подсчёта от 1 до 5 и вычисления суммы.",
+    expectedOutput: "Числа: 1 2 3 4 5 Сумма: 15",
     initialCode: `let numbers = "";
 let sum = 0;
 
-// Fix this loop to count from 1 to 5
+// Исправьте этот цикл для подсчёта от 1 до 5
 for (let i = 1; i  5; i++) {
   numbers += i + " ";
   sum += ;
 }
 
-console.log("Numbers: " + numbers + "Sum: " + sum);`,
+console.log("Числа: " + numbers + "Сумма: " + sum);`,
     solution: `let numbers = "";
 let sum = 0;
 
@@ -359,112 +359,112 @@ for (let i = 1; i <= 5; i++) {
   sum += i;
 }
 
-console.log("Numbers: " + numbers + "Sum: " + sum);`,
+console.log("Числа: " + numbers + "Сумма: " + sum);`,
     hints: [
-      "💡 Use <= (less than or equal) to include the number 5",
-      "💡 Add the current value of 'i' to the sum",
-      "💡 The loop condition should allow i to reach 5",
-      "💡 Make sure to include the loop variable in your sum calculation"
+      "💡 Используйте <= (меньше или равно) чтобы включить число 5",
+      "💡 Добавьте текущее значение 'i' к сумме",
+      "💡 Условие цикла должно позволить i достичь 5",
+      "💡 Убедитесь, что включили переменную цикла в вычисление суммы"
     ]
   },
   {
     id: 6,
-    name: "DOM Manipulation",
-    description: "Interact with web page elements using the Document Object Model.",
-    tutorial: `📖 DOM Manipulation in JavaScript
+    name: "Работа с DOM",
+    description: "Взаимодействуйте с элементами веб-страницы, используя объектную модель документа.",
+    tutorial: `📖 Работа с DOM в JavaScript
 
-The DOM allows you to interact with HTML elements.
+DOM позволяет взаимодействовать с HTML элементами.
 
-Selecting Elements:
+Выбор элементов:
 document.getElementById("myId")
 document.querySelector(".myClass")
 document.querySelectorAll("p")
 
-Changing Content:
-element.textContent = "New text";
-element.innerHTML = "<b>Bold text</b>";
+Изменение содержимого:
+element.textContent = "Новый текст";
+element.innerHTML = "<b>Жирный текст</b>";
 
-Changing Styles:
+Изменение стилей:
 element.style.color = "red";
 element.style.backgroundColor = "blue";
 
-Creating Elements:
+Создание элементов:
 const newDiv = document.createElement("div");
-newDiv.textContent = "Hello!";
+newDiv.textContent = "Привет!";
 document.body.appendChild(newDiv);
 
-Events:
+События:
 element.addEventListener("click", function() {
-  console.log("Clicked!");
+  console.log("Нажато!");
 });`,
-    taskTitle: "* Text Updater *",
-    taskDescription: "Complete the code to update the text content of an element.",
-    expectedOutput: "Element text changed to: Hello, JavaScript!",
-    initialCode: `// Simulate getting an element (in a real browser, this would work)
+    taskTitle: "* Обновление текста *",
+    taskDescription: "Завершите код для обновления текстового содержимого элемента.",
+    expectedOutput: "Текст элемента изменён на: Привет, JavaScript!",
+    initialCode: `// Имитация получения элемента (в реальном браузере это работало бы)
 const mockElement = {
-  textContent: "Original text",
+  textContent: "Исходный текст",
   style: {}
 };
 
-// Update the text content
-mockElement. = "Hello, JavaScript!";
+// Обновить текстовое содержимое
+mockElement. = "Привет, JavaScript!";
 
-// Update the style
+// Обновить стиль
 mockElement.style. = "blue";
 
-console.log("Element text changed to: " + mockElement.textContent);
-console.log("Element color changed to: " + mockElement.style.color);`,
+console.log("Текст элемента изменён на: " + mockElement.textContent);
+console.log("Цвет элемента изменён на: " + mockElement.style.color);`,
     solution: `const mockElement = {
-  textContent: "Original text",
+  textContent: "Исходный текст",
   style: {}
 };
 
-mockElement.textContent = "Hello, JavaScript!";
+mockElement.textContent = "Привет, JavaScript!";
 mockElement.style.color = "blue";
 
-console.log("Element text changed to: " + mockElement.textContent);
-console.log("Element color changed to: " + mockElement.style.color);`,
+console.log("Текст элемента изменён на: " + mockElement.textContent);
+console.log("Цвет элемента изменён на: " + mockElement.style.color);`,
     hints: [
-      "💡 Use 'textContent' property to change the text of an element",
-      "💡 Use 'style.color' to change the text color",
-      "💡 Access object properties using dot notation",
-      "💡 Set properties using the assignment operator (=)"
+      "💡 Используйте свойство 'textContent' для изменения текста элемента",
+      "💡 Используйте 'style.color' для изменения цвета текста",
+      "💡 Получайте доступ к свойствам объекта с помощью точечной нотации",
+      "💡 Устанавливайте свойства с помощью оператора присваивания (=)"
     ]
   },
   {
     id: 7,
-    name: "Events",
-    description: "Respond to user interactions like clicks, keypresses, and form submissions.",
-    tutorial: `📖 Events in JavaScript
+    name: "События",
+    description: "Реагируйте на взаимодействия пользователя, такие как клики, нажатия клавиш и отправка форм.",
+    tutorial: `📖 События в JavaScript
 
-Events allow your code to respond to user interactions.
+События позволяют коду реагировать на взаимодействия пользователя.
 
-Adding Event Listeners:
+Добавление обработчиков событий:
 element.addEventListener("click", function() {
-  console.log("Button clicked!");
+  console.log("Кнопка нажата!");
 });
 
-Common Events:
-• click - mouse click
-• keydown - key pressed
-• submit - form submitted
-• load - page loaded
-• change - input changed
+Распространённые события:
+• click - клик мыши
+• keydown - нажата клавиша
+• submit - отправлена форма
+• load - страница загружена
+• change - изменён ввод
 
-Event Object:
+Объект события:
 element.addEventListener("click", function(event) {
-  console.log("Clicked at:", event.clientX, event.clientY);
-  event.preventDefault(); // Stop default behavior
+  console.log("Клик в:", event.clientX, event.clientY);
+  event.preventDefault(); // Остановить поведение по умолчанию
 });
 
-Arrow Functions:
+Стрелочные функции:
 element.addEventListener("click", (event) => {
-  console.log("Arrow function event!");
+  console.log("Событие стрелочной функции!");
 });`,
-    taskTitle: "* Event Handler *",
-    taskDescription: "Complete the event handler to respond to button clicks.",
-    expectedOutput: "Button clicked! Count: 1",
-    initialCode: `// Mock button object
+    taskTitle: "* Обработчик событий *",
+    taskDescription: "Завершите обработчик событий для реагирования на нажатия кнопки.",
+    expectedOutput: "Кнопка нажата! Счёт: 1",
+    initialCode: `// Имитация объекта кнопки
 const mockButton = {
   clickHandlers: [],
   addEventListener: function(event, handler) {
@@ -477,13 +477,13 @@ const mockButton = {
 
 let clickCount = 0;
 
-// Add event listener for click events
+// Добавить обработчик событий для событий клика
 mockButton.addEventListener("", function() {
   clickCount++;
-  console.log("Button clicked! Count: " + clickCount);
+  console.log("Кнопка нажата! Счёт: " + clickCount);
 });
 
-// Simulate clicking the button
+// Имитировать нажатие кнопки
 mockButton.click();`,
     solution: `const mockButton = {
   clickHandlers: [],
@@ -499,154 +499,154 @@ let clickCount = 0;
 
 mockButton.addEventListener("click", function() {
   clickCount++;
-  console.log("Button clicked! Count: " + clickCount);
+  console.log("Кнопка нажата! Счёт: " + clickCount);
 });
 
 mockButton.click();`,
     hints: [
-      "💡 The first parameter should be the event name in quotes",
-      "💡 Use 'click' as the event name for mouse clicks",
-      "💡 Event names are strings, so they need quotation marks",
-      "💡 Make sure the event name matches exactly"
+      "💡 Первый параметр должен быть именем события в кавычках",
+      "💡 Используйте 'click' как имя события для кликов мыши",
+      "💡 Имена событий — это строки, поэтому нужны кавычки",
+      "💡 Убедитесь, что имя события точно совпадает"
     ]
   },
   {
     id: 8,
-    name: "Error Handling",
-    description: "Handle and prevent code errors using try-catch statements.",
-    tutorial: `📖 Error Handling in JavaScript
+    name: "Обработка ошибок",
+    description: "Обрабатывайте и предотвращайте ошибки в коде, используя операторы try-catch.",
+    tutorial: `📖 Обработка ошибок в JavaScript
 
-Error handling prevents your code from crashing when things go wrong.
+Обработка ошибок предотвращает падение кода при возникновении проблем.
 
 Try-Catch:
 try {
-  // Code that might throw an error
+  // Код, который может вызвать ошибку
   const result = riskyOperation();
   console.log(result);
 } catch (error) {
-  // Handle the error
-  console.log("Error:", error.message);
+  // Обработать ошибку
+  console.log("Ошибка:", error.message);
 }
 
 Try-Catch-Finally:
 try {
-  // Risky code
+  // Рискованный код
 } catch (error) {
-  // Handle error
+  // Обработать ошибку
 } finally {
-  // Always runs
+  // Всегда выполняется
 }
 
-Throwing Errors:
+Генерация ошибок:
 if (age < 0) {
-  throw new Error("Age cannot be negative");
+  throw new Error("Возраст не может быть отрицательным");
 }
 
-Common Error Types:
-• ReferenceError - variable not defined
-• TypeError - wrong data type
-• SyntaxError - code syntax error`,
-    taskTitle: "* Error Handler *",
-    taskDescription: "Add proper error handling to catch and handle potential errors.",
-    expectedOutput: "Error caught: Cannot divide by zero",
+Распространённые типы ошибок:
+• ReferenceError - переменная не определена
+• TypeError - неправильный тип данных
+• SyntaxError - синтаксическая ошибка`,
+    taskTitle: "* Обработчик ошибок *",
+    taskDescription: "Добавьте правильную обработку ошибок для перехвата и обработки потенциальных ошибок.",
+    expectedOutput: "Ошибка перехвачена: Нельзя делить на ноль",
     initialCode: `function divide(a, b) {
   if (b === 0) {
-    throw new Error("Cannot divide by zero");
+    throw new Error("Нельзя делить на ноль");
   }
   return a / b;
 }
 
-// Add try-catch to handle the error
+// Добавить try-catch для обработки ошибки
  {
   const result = divide(10, 0);
-  console.log("Result:", result);
+  console.log("Результат:", result);
 }  (error) {
-  console.log("Error caught:", error.message);
+  console.log("Ошибка перехвачена:", error.message);
 }`,
     solution: `function divide(a, b) {
   if (b === 0) {
-    throw new Error("Cannot divide by zero");
+    throw new Error("Нельзя делить на ноль");
   }
   return a / b;
 }
 
 try {
   const result = divide(10, 0);
-  console.log("Result:", result);
+  console.log("Результат:", result);
 } catch (error) {
-  console.log("Error caught:", error.message);
+  console.log("Ошибка перехвачена:", error.message);
 }`,
     hints: [
-      "💡 Use 'try' keyword to start a try block",
-      "💡 Use 'catch' keyword to handle errors",
-      "💡 The try-catch structure needs both keywords",
-      "💡 Put the risky code inside the try block"
+      "💡 Используйте ключевое слово 'try' для начала блока try",
+      "💡 Используйте ключевое слово 'catch' для обработки ошибок",
+      "💡 Структура try-catch нуждается в обоих ключевых словах",
+      "💡 Поместите рискованный код в блок try"
     ]
   },
   {
     id: 9,
-    name: "Final Challenge",
-    description: "Put all your skills to the test in this comprehensive challenge.",
-    tutorial: `📖 Final Challenge
+    name: "Финальный вызов",
+    description: "Проверьте все свои навыки в этом комплексном испытании.",
+    tutorial: `📖 Финальный вызов
 
-This challenge combines everything you've learned:
-• Variables and data types
-• Functions
-• Arrays and objects
-• Conditionals
-• Loops
-• DOM manipulation
-• Events
-• Error handling
+Это испытание объединяет всё, что вы изучили:
+• Переменные и типы данных
+• Функции
+• Массивы и объекты
+• Условные операторы
+• Циклы
+• Работа с DOM
+• События
+• Обработка ошибок
 
-You'll create a complete mini-program that uses multiple JavaScript concepts together.
+Вы создадите полную мини-программу, которая использует множество концепций JavaScript вместе.
 
-Tips:
-• Read the requirements carefully
-• Break down the problem into smaller parts
-• Use console.log to debug your code
-• Don't be afraid to experiment!
+Советы:
+• Внимательно читайте требования
+• Разбивайте проблему на меньшие части
+• Используйте console.log для отладки кода
+• Не бойтесь экспериментировать!
 
-Good luck, brave programmer!`,
-    taskTitle: "* The Ultimate Challenge *",
-    taskDescription: "Create a student grade calculator that processes an array of student objects.",
-    expectedOutput: "Student: Alice, Grade: B, Status: Pass\nStudent: Bob, Grade: D, Status: Fail\nClass Average: 72.5",
-    initialCode: `// Complete this student grade calculator
+Удачи, отважный программист!`,
+    taskTitle: "* Главное испытание *",
+    taskDescription: "Создайте калькулятор оценок студентов, который обрабатывает массив объектов студентов.",
+    expectedOutput: "Студент: Алиса, Оценка: B, Статус: Сдал\nСтудент: Боб, Оценка: D, Статус: Не сдал\nСредний балл класса: 72.5",
+    initialCode: `// Завершите этот калькулятор оценок студентов
 const students = [
-  { name: "Alice", scores: [85, 92, 78, 96] },
-  { name: "Bob", scores: [45, 67, 58, 72] }
+  { name: "Алиса", scores: [85, 92, 78, 96] },
+  { name: "Боб", scores: [45, 67, 58, 72] }
 ];
 
 function calculateAverage(scores) {
-  // Calculate and return the average of the scores array
+  // Вычислите и верните среднее значение массива оценок
   
 }
 
 function getLetterGrade(average) {
-  // Return letter grade based on average
-  // A: 90+, B: 80-89, C: 70-79, D: 60-69, F: below 60
+  // Верните буквенную оценку на основе среднего балла
+  // A: 90+, B: 80-89, C: 70-79, D: 60-69, F: ниже 60
   
 }
 
 function getPassStatus(average) {
-  // Return "Pass" if average >= 70, "Fail" otherwise
+  // Верните "Сдал" если средний балл >= 70, "Не сдал" в противном случае
   
 }
 
-// Process each student
+// Обработать каждого студента
 let classTotal = 0;
 for (const student of students) {
   const average = calculateAverage(student.scores);
   const grade = getLetterGrade(average);
   const status = getPassStatus(average);
   
-  console.log(\`Student: \${student.name}, Grade: \${grade}, Status: \${status}\`);
+  console.log(\`Студент: \${student.name}, Оценка: \${grade}, Статус: \${status}\`);
   classTotal += average;
 }
 
-// Calculate and display class average
+// Вычислить и показать средний балл класса
 const classAverage = classTotal / students.length;
-console.log("Class Average: " + classAverage);`,
+console.log("Средний балл класса: " + classAverage);`,
     solution: `const students = [
   { name: "Alice", scores: [85, 92, 78, 96] },
   { name: "Bob", scores: [45, 67, 58, 72] }
