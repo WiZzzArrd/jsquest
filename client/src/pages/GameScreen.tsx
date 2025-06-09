@@ -40,23 +40,53 @@ export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenP
 
   const runCode = () => {
     try {
-      // Simple code execution simulation
-      setConsole(['Код успешно выполнен!']);
+      setConsole(['Код запущен...']);
       
-      // Simulate console.log output
-      if (code.includes('console.log')) {
-        setTimeout(() => {
-          // Extract and simulate console.log statements
-          const lines = code.split('\n');
-          const consoleLogs = lines.filter(line => line.trim().includes('console.log'));
+      // Try to execute the actual code
+      setTimeout(() => {
+        try {
+          // Create a safe environment for code execution
+          const capturedOutput: string[] = [];
           
-          if (consoleLogs.length > 0) {
-            // For demo purposes, show expected output
-            const outputs = [level.expectedOutput];
-            setConsole(prev => [...prev, ...outputs]);
+          // Override console.log to capture output
+          const originalConsoleLog = console.log;
+          const mockConsole = {
+            log: (...args: any[]) => {
+              capturedOutput.push(args.join(' '));
+            }
+          };
+          
+          // Replace console in the code string for execution
+          let executableCode = code;
+          
+          // Simple validation - check if code has basic syntax
+          if (!executableCode.trim()) {
+            setConsole(['Ошибка: Пустой код!']);
+            return;
           }
-        }, 500);
-      }
+          
+          // Check for basic JavaScript syntax errors
+          try {
+            // Replace console.log with our mock version
+            executableCode = executableCode.replace(/console\.log/g, 'mockConsole.log');
+            
+            // Create a function to execute the code safely
+            const executeCode = new Function('mockConsole', executableCode);
+            executeCode(mockConsole);
+            
+            if (capturedOutput.length > 0) {
+              setConsole(['Результат выполнения:', ...capturedOutput]);
+            } else {
+              setConsole(['Код выполнен успешно (без вывода)']);
+            }
+          } catch (syntaxError) {
+            // Show actual syntax errors
+            setConsole([`Ошибка выполнения: ${syntaxError}`]);
+          }
+        } catch (error) {
+          setConsole([`Ошибка: ${error}`]);
+        }
+      }, 300);
     } catch (error) {
       setConsole([`Ошибка: ${error}`]);
     }
