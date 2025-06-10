@@ -7,8 +7,10 @@ import StartScreen from "@/pages/StartScreen";
 import LevelScreen from "@/pages/LevelScreen";
 import GameScreen from "@/pages/GameScreen";
 import QuizScreen from "@/pages/QuizScreen";
+import AuthScreen from "@/pages/AuthScreen";
+import { useAuth } from "@/hooks/useAuth";
 
-type Screen = 'start' | 'levels' | 'game' | 'quiz';
+type Screen = 'start' | 'levels' | 'game' | 'quiz' | 'auth';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('start');

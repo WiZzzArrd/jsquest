@@ -11,15 +11,35 @@ export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
-): Promise<Response> {
+  extraHeaders?: Record<string, string>
+): Promise<any> {
+  const headers: Record<string, string> = data ? { "Content-Type": "application/json" } : {};
+  
+  // Add auth token if available
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('codequest_token');
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+  }
+
+  // Add any extra headers
+  if (extraHeaders) {
+    Object.assign(headers, extraHeaders);
+  }
+
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers,
     body: data ? JSON.stringify(data) : undefined,
     credentials: "include",
   });
 
   await throwIfResNotOk(res);
+  
+  if (res.headers.get("content-type")?.includes("application/json")) {
+    return res.json();
+  }
   return res;
 }
 
