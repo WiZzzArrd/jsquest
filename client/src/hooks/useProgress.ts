@@ -33,7 +33,8 @@ export function useProgress() {
     queryKey: ['/api/progress', isAuthenticated, user?.id],
     queryFn: async () => {
       if (!isAuthenticated) {
-        return getLocalProgress();
+        // For anonymous users, return empty progress always
+        return {};
       }
       
       try {
@@ -67,11 +68,9 @@ export function useProgress() {
   const completeLevelMutation = useMutation({
     mutationFn: async (levelId: number) => {
       if (!isAuthenticated || !user) {
-        // Fallback to local storage for unauthenticated users
-        const currentProgress = getLocalProgress();
-        const newProgress = { ...currentProgress, [levelId]: true };
-        setLocalProgress(newProgress);
-        return newProgress;
+        // For unauthenticated users, don't save progress
+        console.log('Progress not saved - user not authenticated');
+        return {};
       }
 
       try {
@@ -124,8 +123,7 @@ export function useProgress() {
   const resetProgressMutation = useMutation({
     mutationFn: async () => {
       if (!isAuthenticated) {
-        // Fallback to local storage for unauthenticated users
-        setLocalProgress({});
+        // For unauthenticated users, no progress to reset
         return {};
       }
 

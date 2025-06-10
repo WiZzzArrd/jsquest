@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
@@ -18,6 +18,15 @@ function AppContent() {
   // Simple local authentication state for demo
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
+
+  // Clear old progress data on app load
+  useEffect(() => {
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('codequest_progress') && key !== 'codequest_progress_anonymous') {
+        localStorage.removeItem(key);
+      }
+    });
+  }, []);
 
   const handleStart = () => {
     setCurrentScreen('levels');
