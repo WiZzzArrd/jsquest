@@ -68,11 +68,16 @@ export function useAuth() {
       return await apiRequest('POST', '/api/auth/login', userData);
     },
     onSuccess: (data) => {
+      // Clear any existing local progress data
+      localStorage.removeItem('codequest_progress');
+      
       setToken(data.token);
       setUser(data.user);
       localStorage.setItem(TOKEN_KEY, data.token);
       localStorage.setItem(USER_KEY, JSON.stringify(data.user));
-      queryClient.invalidateQueries({ queryKey: ['/api/progress'] });
+      
+      // Clear all cached queries and fetch fresh data
+      queryClient.clear();
     },
   });
 
@@ -81,11 +86,16 @@ export function useAuth() {
       return await apiRequest('POST', '/api/auth/register', userData);
     },
     onSuccess: (data) => {
+      // Clear any existing local progress data
+      localStorage.removeItem('codequest_progress');
+      
       setToken(data.token);
       setUser(data.user);
       localStorage.setItem(TOKEN_KEY, data.token);
       localStorage.setItem(USER_KEY, JSON.stringify(data.user));
-      queryClient.invalidateQueries({ queryKey: ['/api/progress'] });
+      
+      // Clear all cached queries and fetch fresh data
+      queryClient.clear();
     },
   });
 
@@ -102,6 +112,7 @@ export function useAuth() {
     setUser(null);
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    localStorage.removeItem('codequest_progress');
     queryClient.clear();
   };
 
