@@ -73,6 +73,7 @@ export function useProgress() {
       }
 
       try {
+        console.log('Saving progress for user:', user.id, 'level:', levelId);
         await apiRequest('POST', '/api/progress', {
           userId: user.id,
           levelId,
@@ -81,7 +82,9 @@ export function useProgress() {
         });
         
         // Update local state immediately
-        return { ...progress, [levelId]: true };
+        const currentProgress = queryClient.getQueryData(['/api/progress', isAuthenticated, user?.id]) as Record<number, boolean> || {};
+        console.log('Updated progress:', { ...currentProgress, [levelId]: true });
+        return { ...currentProgress, [levelId]: true };
       } catch (error) {
         console.error('Failed to save progress:', error);
         // Fallback to local storage
