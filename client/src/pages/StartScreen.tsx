@@ -26,13 +26,22 @@ export default function StartScreen({ onStart, onStartQuiz }: StartScreenProps) 
           >
             НАЧАТЬ ПРИКЛЮЧЕНИЕ
           </PixelButton>
-          <PixelButton 
-            onClick={onStartQuiz} 
-            variant="primary"
-            className="text-lg px-6 py-3"
-          >
-            БЛИЦ-ТЕСТ
-          </PixelButton>
+          <div className="flex gap-4">
+            <PixelButton 
+              onClick={onStartQuiz} 
+              variant="primary"
+              className="text-lg px-6 py-3"
+            >
+              БЛИЦ-ТЕСТ
+            </PixelButton>
+            <PixelButton 
+              onClick={() => {}} 
+              variant="success"
+              className="text-lg px-6 py-3"
+            >
+              ВХОД / РЕГИСТРАЦИЯ
+            </PixelButton>
+          </div>
         </div>
       </div>
     </div>
