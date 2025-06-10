@@ -46,7 +46,10 @@ export function useAuth() {
   const { isLoading } = useQuery({
     queryKey: ['/api/auth/me'],
     queryFn: async () => {
-      if (!token) return null;
+      if (!token) {
+        setUser(null);
+        return null;
+      }
       
       try {
         const userData = await apiRequest('GET', '/api/auth/me');
@@ -59,7 +62,7 @@ export function useAuth() {
         return null;
       }
     },
-    enabled: !!token && !user,
+    enabled: !!token,
     retry: false,
   });
 
@@ -126,10 +129,13 @@ export function useAuth() {
     queryClient.clear();
   };
 
-  // Set up axios interceptor for token
+  // Initialize user from localStorage on mount
   useEffect(() => {
-    // This will be handled in the apiRequest function
-  }, [token]);
+    if (token && !user) {
+      // Force re-fetch user data if we have token but no user
+      queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
+    }
+  }, [token, user, queryClient]);
 
   return {
     user,
