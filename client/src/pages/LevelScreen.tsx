@@ -7,9 +7,10 @@ import { useProgress } from '@/hooks/useProgress';
 
 interface LevelScreenProps {
   onSelectLevel: (levelId: number) => void;
+  onStartQuiz: () => void;
 }
 
-export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
+export default function LevelScreen({ onSelectLevel, onStartQuiz }: LevelScreenProps) {
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
   const { isLevelCompleted, isLevelUnlocked, getCompletedCount, resetProgress, refreshProgress, isResetting } = useProgress();
@@ -80,6 +81,13 @@ export default function LevelScreen({ onSelectLevel }: LevelScreenProps) {
               </span>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
+              <PixelButton
+                onClick={onStartQuiz}
+                variant="warning"
+                className="text-xs"
+              >
+                БЛИЦ-ТЕСТ
+              </PixelButton>
               <PixelButton
                 onClick={refreshProgress}
                 variant="primary"

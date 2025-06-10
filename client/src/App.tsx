@@ -6,8 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import StartScreen from "@/pages/StartScreen";
 import LevelScreen from "@/pages/LevelScreen";
 import GameScreen from "@/pages/GameScreen";
+import QuizScreen from "@/pages/QuizScreen";
 
-type Screen = 'start' | 'levels' | 'game';
+type Screen = 'start' | 'levels' | 'game' | 'quiz';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('start');
@@ -17,6 +18,10 @@ function App() {
     setCurrentScreen('levels');
   };
 
+  const handleStartQuiz = () => {
+    setCurrentScreen('quiz');
+  };
+
   const handleSelectLevel = (levelId: number) => {
     setCurrentLevel(levelId);
     setCurrentScreen('game');
@@ -24,6 +29,10 @@ function App() {
 
   const handleBackToLevels = () => {
     setCurrentScreen('levels');
+  };
+
+  const handleBackToStart = () => {
+    setCurrentScreen('start');
   };
 
   const handleNextLevel = () => {
@@ -41,10 +50,10 @@ function App() {
         <Toaster />
         <div className="h-screen w-screen overflow-hidden">
           {currentScreen === 'start' && (
-            <StartScreen onStart={handleStart} />
+            <StartScreen onStart={handleStart} onStartQuiz={handleStartQuiz} />
           )}
           {currentScreen === 'levels' && (
-            <LevelScreen onSelectLevel={handleSelectLevel} />
+            <LevelScreen onSelectLevel={handleSelectLevel} onStartQuiz={handleStartQuiz} />
           )}
           {currentScreen === 'game' && (
             <GameScreen 
@@ -52,6 +61,9 @@ function App() {
               onBack={handleBackToLevels}
               onNextLevel={handleNextLevel}
             />
+          )}
+          {currentScreen === 'quiz' && (
+            <QuizScreen onBack={handleBackToLevels} />
           )}
         </div>
       </TooltipProvider>
