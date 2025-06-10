@@ -3,9 +3,12 @@ import PixelButton from '@/components/PixelButton';
 interface StartScreenProps {
   onStart: () => void;
   onStartQuiz: () => void;
+  onAuth: () => void;
+  isAuthenticated: boolean;
+  username?: string;
 }
 
-export default function StartScreen({ onStart, onStartQuiz }: StartScreenProps) {
+export default function StartScreen({ onStart, onStartQuiz, onAuth, isAuthenticated, username }: StartScreenProps) {
   return (
     <div className="min-h-screen bg-undertale-dark flex items-center justify-center p-4">
       <div className="pixel-border bg-undertale-panel p-8 max-w-2xl text-center">
@@ -35,11 +38,11 @@ export default function StartScreen({ onStart, onStartQuiz }: StartScreenProps) 
               БЛИЦ-ТЕСТ
             </PixelButton>
             <PixelButton 
-              onClick={() => {}} 
+              onClick={onAuth} 
               variant="success"
               className="text-lg px-6 py-3"
             >
-              ВХОД / РЕГИСТРАЦИЯ
+              {isAuthenticated ? `ПРИВЕТ, ${username}!` : 'ВХОД / РЕГИСТРАЦИЯ'}
             </PixelButton>
           </div>
         </div>

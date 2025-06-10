@@ -74,13 +74,19 @@ function AppContent() {
       {currentScreen === 'start' && (
         <StartScreen 
           onStart={handleStart} 
-          onStartQuiz={handleStartQuiz} 
+          onStartQuiz={handleStartQuiz}
+          onAuth={handleAuth}
+          isAuthenticated={isAuthenticated}
+          username={user?.username}
         />
       )}
       {currentScreen === 'levels' && (
         <LevelScreen 
           onSelectLevel={handleSelectLevel} 
           onStartQuiz={handleStartQuiz}
+          onAuth={handleAuth}
+          isAuthenticated={isAuthenticated}
+          username={user?.username}
         />
       )}
       {currentScreen === 'game' && (

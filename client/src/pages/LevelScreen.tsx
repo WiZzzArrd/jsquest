@@ -8,9 +8,12 @@ import { useProgress } from '@/hooks/useProgress';
 interface LevelScreenProps {
   onSelectLevel: (levelId: number) => void;
   onStartQuiz: () => void;
+  onAuth: () => void;
+  isAuthenticated: boolean;
+  username?: string;
 }
 
-export default function LevelScreen({ onSelectLevel, onStartQuiz }: LevelScreenProps) {
+export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, isAuthenticated, username }: LevelScreenProps) {
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
   const { isLevelCompleted, isLevelUnlocked, getCompletedCount, resetProgress, refreshProgress, isResetting } = useProgress();
@@ -24,6 +27,12 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz }: LevelScreenP
   const totalLevels = levels.length;
 
   const handleLevelClick = (levelId: number) => {
+    // Check if level requires authentication
+    if (levelId >= 2 && !isAuthenticated) {
+      onAuth();
+      return;
+    }
+    
     if (isLevelUnlocked(levelId)) {
       setSelectedLevel(levelId);
     }
@@ -45,7 +54,9 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz }: LevelScreenP
   };
 
   const getLevelNodeClass = (levelId: number) => {
-    if (isLevelCompleted(levelId)) {
+    if (levelId >= 2 && !isAuthenticated) {
+      return 'level-node auth-required';
+    } else if (isLevelCompleted(levelId)) {
       return 'level-node completed';
     } else if (isLevelUnlocked(levelId)) {
       return 'level-node current';
@@ -55,7 +66,9 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz }: LevelScreenP
   };
 
   const getLevelNodeContent = (levelId: number) => {
-    if (isLevelCompleted(levelId)) {
+    if (levelId >= 2 && !isAuthenticated) {
+      return <div><div className="text-2xl">🔐</div><div>{levelId + 1}</div></div>;
+    } else if (isLevelCompleted(levelId)) {
       return <div><div className="text-2xl">✓</div><div>{levelId + 1}</div></div>;
     } else if (isLevelUnlocked(levelId)) {
       return <div><div className="text-2xl">⚡</div><div>{levelId + 1}</div></div>;
@@ -69,9 +82,21 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz }: LevelScreenP
       {/* Header */}
       <div className="pixel-border bg-undertale-panel p-4 m-2 md:m-4">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0">
-          <h2 className="text-xl md:text-2xl text-undertale-yellow font-bold text-center md:text-left">
-            * Выберите свой путь *
-          </h2>
+          <div>
+            <h2 className="text-xl md:text-2xl text-undertale-yellow font-bold text-center md:text-left">
+              * Выберите свой путь *
+            </h2>
+            {isAuthenticated && (
+              <p className="text-undertale-green text-sm mt-1">
+                Добро пожаловать, {username}! Все уровни доступны.
+              </p>
+            )}
+            {!isAuthenticated && (
+              <p className="text-undertale-cyan text-sm mt-1">
+                🔐 Уровни 3+ требуют регистрации
+              </p>
+            )}
+          </div>
           <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
             <div className="flex items-center space-x-2">
               <span className="text-sm text-white">Прогресс:</span>
