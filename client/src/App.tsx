@@ -34,7 +34,11 @@ function AppContent() {
   }, []);
 
   const handleStart = () => {
-    setCurrentScreen('levels');
+    if (!isAuthenticated) {
+      setCurrentScreen('auth');
+    } else {
+      setCurrentScreen('levels');
+    }
   };
 
   const handleStartQuiz = () => {
@@ -61,11 +65,7 @@ function AppContent() {
   };
 
   const handleAuthSuccess = (userData: any) => {
-    // Force component re-render by briefly changing screen
-    setCurrentScreen('start');
-    setTimeout(() => {
-      setCurrentScreen('levels');
-    }, 100);
+    setCurrentScreen('levels');
   };
 
   const handleLogout = () => {
