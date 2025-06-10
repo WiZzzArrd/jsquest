@@ -26,6 +26,7 @@ const authenticateToken = async (req: AuthRequest, res: Response, next: NextFunc
     next();
   } catch (error) {
     req.userId = undefined;
+    req.user = undefined;
     next();
   }
 };
@@ -90,22 +91,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update progress
-  app.post("/api/progress", async (req: AuthRequest, res) => {
+  app.post("/api/progress", requireAuth, async (req: AuthRequest, res) => {
     try {
-      let userId: number | string;
-      
-      if (req.userId) {
-        userId = req.userId;
-      } else {
-        // For anonymous users, return success but don't save to DB
-        return res.json({ message: "Progress saved locally" });
-      }
-
       const validatedData = insertProgressSchema.parse({
         ...req.body,
-        userId: userId as number,
+        userId: req.userId as number,
       });
       
+      console.log('Saving progress for user:', req.userId, 'data:', validatedData);
       const progress = await storage.updateProgress(validatedData);
       res.json(progress);
     } catch (error) {

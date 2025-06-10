@@ -76,10 +76,8 @@ export function useProgress() {
       try {
         console.log('Saving progress for user:', user.id, 'level:', levelId);
         await apiRequest('POST', '/api/progress', {
-          userId: user.id,
           levelId,
-          completed: true,
-          score: 100
+          completed: true
         });
         
         // Update local state immediately
@@ -96,14 +94,16 @@ export function useProgress() {
       }
     },
     onSuccess: (data) => {
-      queryClient.setQueryData(['/api/progress', isAuthenticated, user?.id], (old: Record<number, boolean> = {}) => {
-        if (data && typeof data === 'object') {
-          return data;
-        }
-        return { ...old };
-      });
-      // Also invalidate to refetch from server
-      queryClient.invalidateQueries({ queryKey: ['/api/progress', isAuthenticated, user?.id] });
+      if (isAuthenticated && user) {
+        queryClient.setQueryData(['/api/progress', isAuthenticated, user?.id], (old: Record<number, boolean> = {}) => {
+          if (data && typeof data === 'object') {
+            return data;
+          }
+          return { ...old };
+        });
+        // Also invalidate to refetch from server
+        queryClient.invalidateQueries({ queryKey: ['/api/progress', isAuthenticated, user?.id] });
+      }
     },
   });
 
