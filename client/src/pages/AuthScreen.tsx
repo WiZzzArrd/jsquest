@@ -24,6 +24,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
       email: '',
       password: '',
     },
+    mode: 'onChange',
   });
 
   const registerForm = useForm<InsertUser>({
@@ -33,7 +34,18 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
       email: '',
       password: '',
     },
+    mode: 'onChange',
   });
+
+  // Сброс форм при переключении вкладок
+  const handleTabSwitch = (newIsLogin: boolean) => {
+    setIsLogin(newIsLogin);
+    if (newIsLogin) {
+      registerForm.reset();
+    } else {
+      loginForm.reset();
+    }
+  };
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginUser) => {
@@ -214,7 +226,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
         <div className="mt-6 space-y-3">
           <div className="text-center">
             <button
-              onClick={() => setIsLogin(!isLogin)}
+              onClick={() => handleTabSwitch(!isLogin)}
               className="text-undertale-cyan hover:text-undertale-yellow transition-colors text-sm"
             >
               {isLogin ? 'Нет аккаунта? Зарегистрируйтесь' : 'Уже есть аккаунт? Войдите'}

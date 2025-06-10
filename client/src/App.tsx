@@ -62,6 +62,13 @@ function AppContent() {
 
   const handleNextLevel = () => {
     const nextLevel = currentLevel + 1;
+    
+    // Check if next level requires authentication
+    if (nextLevel >= 2 && !isAuthenticated) {
+      setCurrentScreen('auth');
+      return;
+    }
+    
     if (nextLevel < 30) { // We have 30 levels (0-29)
       setCurrentLevel(nextLevel);
     } else {
@@ -94,6 +101,7 @@ function AppContent() {
           levelId={currentLevel}
           onBack={handleBackToLevels}
           onNextLevel={handleNextLevel}
+          isAuthenticated={isAuthenticated}
         />
       )}
       {currentScreen === 'quiz' && (

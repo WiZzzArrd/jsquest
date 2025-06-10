@@ -8,9 +8,10 @@ interface GameScreenProps {
   levelId: number;
   onBack: () => void;
   onNextLevel: () => void;
+  isAuthenticated?: boolean;
 }
 
-export default function GameScreen({ levelId, onBack, onNextLevel }: GameScreenProps) {
+export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticated = false }: GameScreenProps) {
   const [code, setCode] = useState('');
   const [console, setConsole] = useState<string[]>(['Вывод консоли будет отображаться здесь...']);
   const [showSuccess, setShowSuccess] = useState(false);
