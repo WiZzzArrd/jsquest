@@ -1,12 +1,24 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import PixelButton from '@/components/PixelButton';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { insertUserSchema, loginSchema, type InsertUser, type LoginUser } from '@shared/schema';
-import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/hooks/useAuth';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import PixelButton from "@/components/PixelButton";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  insertUserSchema,
+  loginSchema,
+  type InsertUser,
+  type LoginUser,
+} from "@shared/schema";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 interface AuthScreenProps {
   onAuthSuccess: (user: any) => void;
@@ -21,20 +33,20 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
   const loginForm = useForm<LoginUser>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   const registerForm = useForm<InsertUser>({
     resolver: zodResolver(insertUserSchema),
     defaultValues: {
-      username: '',
-      email: '',
-      password: '',
+      username: "",
+      email: "",
+      password: "",
     },
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   // Сброс форм при переключении вкладок
@@ -54,7 +66,9 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
         title: "Успешный вход",
         description: "Добро пожаловать в КодКвест!",
       });
+
       onAuthSuccess(data);
+      window.location.reload(false);
     } catch (error: any) {
       toast({
         title: "Ошибка входа",
@@ -71,11 +85,14 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
         title: "Успешная регистрация",
         description: "Аккаунт создан! Добро пожаловать в КодКвест!",
       });
+
       onAuthSuccess(data);
+      window.location.reload(false);
     } catch (error: any) {
       toast({
         title: "Ошибка регистрации",
-        description: error.message || "Пользователь с таким email уже существует",
+        description:
+          error.message || "Пользователь с таким email уже существует",
         variant: "destructive",
       });
     }
@@ -85,12 +102,15 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
     <div className="min-h-screen bg-undertale-dark flex items-center justify-center p-4">
       <div className="pixel-border bg-undertale-panel p-8 max-w-md w-full">
         <h2 className="text-2xl text-undertale-yellow font-bold mb-6 text-center">
-          {isLogin ? '* Вход в систему *' : '* Регистрация *'}
+          {isLogin ? "* Вход в систему *" : "* Регистрация *"}
         </h2>
 
         {isLogin ? (
           <Form {...loginForm} key="login-form">
-            <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
+            <form
+              onSubmit={loginForm.handleSubmit(onLoginSubmit)}
+              className="space-y-4"
+            >
               <FormField
                 control={loginForm.control}
                 name="email"
@@ -136,20 +156,25 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
                   disabled={isLoading}
                   onClick={loginForm.handleSubmit(onLoginSubmit)}
                 >
-                  {isLoading ? 'ВХОД...' : 'ВОЙТИ'}
+                  {isLoading ? "ВХОД..." : "ВОЙТИ"}
                 </PixelButton>
               </div>
             </form>
           </Form>
         ) : (
           <Form {...registerForm} key="register-form">
-            <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
+            <form
+              onSubmit={registerForm.handleSubmit(onRegisterSubmit)}
+              className="space-y-4"
+            >
               <FormField
                 control={registerForm.control}
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-white">Имя пользователя</FormLabel>
+                    <FormLabel className="text-white">
+                      Имя пользователя
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -207,7 +232,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
                   disabled={isLoading}
                   onClick={registerForm.handleSubmit(onRegisterSubmit)}
                 >
-                  {isLoading ? 'РЕГИСТРАЦИЯ...' : 'ЗАРЕГИСТРИРОВАТЬСЯ'}
+                  {isLoading ? "РЕГИСТРАЦИЯ..." : "ЗАРЕГИСТРИРОВАТЬСЯ"}
                 </PixelButton>
               </div>
             </form>
@@ -220,19 +245,14 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
               onClick={() => handleTabSwitch(!isLogin)}
               className="text-undertale-cyan hover:text-undertale-yellow transition-colors text-sm"
             >
-              {isLogin ? 'Нет аккаунта? Зарегистрируйтесь' : 'Уже есть аккаунт? Войдите'}
+              {isLogin
+                ? "Нет аккаунта? Зарегистрируйтесь"
+                : "Уже есть аккаунт? Войдите"}
             </button>
           </div>
           <PixelButton onClick={onBack} variant="secondary" className="w-full">
             НАЗАД
           </PixelButton>
-        </div>
-
-        <div className="mt-6 bg-black border-2 border-undertale-green p-3 text-xs text-white">
-          <p className="text-undertale-yellow mb-2">ℹ️ Информация:</p>
-          <p>• Первые 2 уровня доступны без регистрации</p>
-          <p>• Регистрация открывает все уровни и блиц-тест</p>
-          <p>• Ваш прогресс будет сохранен</p>
         </div>
       </div>
     </div>

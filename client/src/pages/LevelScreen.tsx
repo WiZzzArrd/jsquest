@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import PixelButton from '@/components/PixelButton';
-import ProgressBar from '@/components/ProgressBar';
-import ResetProgressModal from '@/components/ResetProgressModal';
-import { levels } from '@/data/levels';
-import { useProgress } from '@/hooks/useProgress';
+import { useState, useEffect } from "react";
+import PixelButton from "@/components/PixelButton";
+import ProgressBar from "@/components/ProgressBar";
+import ResetProgressModal from "@/components/ResetProgressModal";
+import { levels } from "@/data/levels";
+import { useProgress } from "@/hooks/useProgress";
 
 interface LevelScreenProps {
   onSelectLevel: (levelId: number) => void;
@@ -14,10 +14,24 @@ interface LevelScreenProps {
   username?: string;
 }
 
-export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogout, isAuthenticated, username }: LevelScreenProps) {
+export default function LevelScreen({
+  onSelectLevel,
+  onStartQuiz,
+  onAuth,
+  onLogout,
+  isAuthenticated,
+  username,
+}: LevelScreenProps) {
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
-  const { isLevelCompleted, isLevelUnlocked, getCompletedCount, resetProgress, refreshProgress, isResetting } = useProgress();
+  const {
+    isLevelCompleted,
+    isLevelUnlocked,
+    getCompletedCount,
+    resetProgress,
+    refreshProgress,
+    isResetting,
+  } = useProgress();
 
   // Обновляем прогресс при загрузке экрана
   useEffect(() => {
@@ -33,7 +47,7 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
       onAuth();
       return;
     }
-    
+
     if (isLevelUnlocked(levelId)) {
       setSelectedLevel(levelId);
     }
@@ -56,25 +70,45 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
 
   const getLevelNodeClass = (levelId: number) => {
     if (!isAuthenticated) {
-      return 'level-node auth-required';
+      return "level-node auth-required";
     } else if (isLevelCompleted(levelId)) {
-      return 'level-node completed';
+      return "level-node completed";
     } else if (isLevelUnlocked(levelId)) {
-      return 'level-node current';
+      return "level-node current";
     } else {
-      return 'level-node locked';
+      return "level-node locked";
     }
   };
 
   const getLevelNodeContent = (levelId: number) => {
     if (!isAuthenticated) {
-      return <div><div className="text-2xl">🔐</div><div>{levelId + 1}</div></div>;
+      return (
+        <div>
+          <div className="text-2xl">🔐</div>
+          <div>{levelId + 1}</div>
+        </div>
+      );
     } else if (isLevelCompleted(levelId)) {
-      return <div><div className="text-2xl">✓</div><div>{levelId + 1}</div></div>;
+      return (
+        <div>
+          <div className="text-2xl">✓</div>
+          <div>{levelId + 1}</div>
+        </div>
+      );
     } else if (isLevelUnlocked(levelId)) {
-      return <div><div className="text-2xl">⚡</div><div>{levelId + 1}</div></div>;
+      return (
+        <div>
+          <div className="text-2xl">⚡</div>
+          <div>{levelId + 1}</div>
+        </div>
+      );
     } else {
-      return <div><div className="text-2xl">🔒</div><div>{levelId + 1}</div></div>;
+      return (
+        <div>
+          <div className="text-2xl">🔒</div>
+          <div>{levelId + 1}</div>
+        </div>
+      );
     }
   };
 
@@ -89,9 +123,6 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
             </h2>
             {isAuthenticated && (
               <div className="flex items-center justify-between">
-                <p className="text-undertale-green text-sm mt-1">
-                  Добро пожаловать, {username}! Все уровни доступны.
-                </p>
                 {onLogout && (
                   <button
                     onClick={onLogout}
@@ -101,11 +132,6 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
                   </button>
                 )}
               </div>
-            )}
-            {!isAuthenticated && (
-              <p className="text-undertale-cyan text-sm mt-1">
-                🔐 Уровни 3+ требуют регистрации
-              </p>
             )}
           </div>
           <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
@@ -148,7 +174,9 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
       <div className="flex-1 overflow-y-auto p-2 md:p-4">
         {/* Группа 1: Базовые уровни (0-9) */}
         <div className="mb-6 md:mb-8">
-          <h3 className="text-base md:text-lg text-undertale-cyan mb-3 md:mb-4 font-bold text-center md:text-left">🟡 Основы JavaScript</h3>
+          <h3 className="text-base md:text-lg text-undertale-cyan mb-3 md:mb-4 font-bold text-center md:text-left">
+            🟡 Основы JavaScript
+          </h3>
           <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-4 justify-items-center">
             {levels.slice(0, 10).map((level) => (
               <div
@@ -164,7 +192,9 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
 
         {/* Группа 2: Средние уровни (10-19) */}
         <div className="mb-6 md:mb-8">
-          <h3 className="text-base md:text-lg text-undertale-purple mb-3 md:mb-4 font-bold text-center md:text-left">🟠 Средний уровень</h3>
+          <h3 className="text-base md:text-lg text-undertale-purple mb-3 md:mb-4 font-bold text-center md:text-left">
+            🟠 Средний уровень
+          </h3>
           <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-4 justify-items-center">
             {levels.slice(10, 20).map((level) => (
               <div
@@ -180,7 +210,9 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
 
         {/* Группа 3: Продвинутые уровни (20-29) */}
         <div className="mb-6 md:mb-8">
-          <h3 className="text-base md:text-lg text-undertale-red mb-3 md:mb-4 font-bold text-center md:text-left">🔴 Продвинутый уровень</h3>
+          <h3 className="text-base md:text-lg text-undertale-red mb-3 md:mb-4 font-bold text-center md:text-left">
+            🔴 Продвинутый уровень
+          </h3>
           <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-4 justify-items-center">
             {levels.slice(20, 30).map((level) => (
               <div
@@ -205,10 +237,18 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
             {levels[selectedLevel].description}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <PixelButton onClick={handleStartLevel} variant="success" className="flex-1 sm:flex-none">
+            <PixelButton
+              onClick={handleStartLevel}
+              variant="success"
+              className="flex-1 sm:flex-none"
+            >
               НАЧАТЬ УРОВЕНЬ
             </PixelButton>
-            <PixelButton onClick={hideSelectedLevel} variant="secondary" className="flex-1 sm:flex-none">
+            <PixelButton
+              onClick={hideSelectedLevel}
+              variant="secondary"
+              className="flex-1 sm:flex-none"
+            >
               НАЗАД
             </PixelButton>
           </div>

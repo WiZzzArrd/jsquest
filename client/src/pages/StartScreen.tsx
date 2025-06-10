@@ -1,4 +1,4 @@
-import PixelButton from '@/components/PixelButton';
+import PixelButton from "@/components/PixelButton";
 
 interface StartScreenProps {
   onStart: () => void;
@@ -9,7 +9,14 @@ interface StartScreenProps {
   username?: string;
 }
 
-export default function StartScreen({ onStart, onStartQuiz, onAuth, onLogout, isAuthenticated, username }: StartScreenProps) {
+export default function StartScreen({
+  onStart,
+  onStartQuiz,
+  onAuth,
+  onLogout,
+  isAuthenticated,
+  username,
+}: StartScreenProps) {
   return (
     <div className="min-h-screen bg-undertale-dark flex items-center justify-center p-4">
       <div className="pixel-border bg-undertale-panel p-8 max-w-2xl text-center relative">
@@ -31,32 +38,31 @@ export default function StartScreen({ onStart, onStartQuiz, onAuth, onLogout, is
         )}
         <div className="text-left space-y-4 mb-8 text-white">
           <p>* Вы оказались в загадочном цифровом мире...</p>
-          <p>* Единственный способ выбраться — овладеть древним искусством JavaScript.</p>
-          <p>* Каждый пройденный уровень приближает вас к званию настоящего программиста.</p>
+          <p>
+            * Единственный способ выбраться — овладеть древним искусством
+            JavaScript.
+          </p>
+          <p>
+            * Каждый пройденный уровень приближает вас к званию настоящего
+            программиста.
+          </p>
           <p>* Примете ли вы этот вызов, отважный искатель приключений?</p>
         </div>
         <div className="flex flex-col gap-4 items-center">
-          <PixelButton 
-            onClick={onStart} 
+          <PixelButton
+            onClick={onStart}
             variant="warning"
             className="text-xl px-8 py-4"
           >
             НАЧАТЬ ПРИКЛЮЧЕНИЕ
           </PixelButton>
           <div className="flex gap-4">
-            <PixelButton 
-              onClick={onStartQuiz} 
+            <PixelButton
+              onClick={onStartQuiz}
               variant="primary"
               className="text-lg px-6 py-3"
             >
               БЛИЦ-ТЕСТ
-            </PixelButton>
-            <PixelButton 
-              onClick={onAuth} 
-              variant="success"
-              className="text-lg px-6 py-3"
-            >
-              {isAuthenticated ? `ПРИВЕТ, ${username}!` : 'ВХОД / РЕГИСТРАЦИЯ'}
             </PixelButton>
           </div>
         </div>
