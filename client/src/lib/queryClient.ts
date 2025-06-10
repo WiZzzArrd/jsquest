@@ -49,7 +49,18 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
+    const headers: Record<string, string> = {};
+    
+    // Add auth token if available
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('codequest_token');
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+    }
+
     const res = await fetch(queryKey[0] as string, {
+      headers,
       credentials: "include",
     });
 

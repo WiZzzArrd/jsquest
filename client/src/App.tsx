@@ -3,6 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useAuth } from "@/hooks/useAuth";
 import StartScreen from "@/pages/StartScreen";
 import LevelScreen from "@/pages/LevelScreen";
 import GameScreen from "@/pages/GameScreen";
@@ -15,9 +16,8 @@ function AppContent() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('start');
   const [currentLevel, setCurrentLevel] = useState<number>(0);
   
-  // Simple local authentication state for demo
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  // Use centralized auth state
+  const { isAuthenticated, user, logout } = useAuth();
 
   // Clear old progress data on app load
   useEffect(() => {
@@ -56,20 +56,11 @@ function AppContent() {
   };
 
   const handleAuthSuccess = (userData: any) => {
-    setIsAuthenticated(true);
-    setUser(userData.user);
     setCurrentScreen('levels');
   };
 
   const handleLogout = () => {
-    // Clear local state
-    setIsAuthenticated(false);
-    setUser(null);
-    
-    // Clear localStorage
-    localStorage.removeItem('token');
-    
-    // Redirect to start screen
+    logout();
     setCurrentScreen('start');
   };
 
