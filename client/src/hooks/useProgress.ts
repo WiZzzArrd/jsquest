@@ -149,7 +149,7 @@ export function useProgress() {
   };
 
   const refreshProgress = () => {
-    queryClient.invalidateQueries({ queryKey: ['/api/progress'] });
+    queryClient.invalidateQueries({ queryKey: ['/api/progress', isAuthenticated, user?.id] });
   };
 
   return {
