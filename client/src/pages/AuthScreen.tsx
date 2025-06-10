@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import PixelButton from '@/components/PixelButton';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { apiRequest } from '@/lib/queryClient';
 import { insertUserSchema, loginSchema, type InsertUser, type LoginUser } from '@shared/schema';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 
 interface AuthScreenProps {
   onAuthSuccess: (user: any) => void;
@@ -17,6 +16,7 @@ interface AuthScreenProps {
 export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
   const [isLogin, setIsLogin] = useState(true);
   const { toast } = useToast();
+  const { login, register } = useAuth();
 
   const loginForm = useForm<LoginUser>({
     resolver: zodResolver(loginSchema),
@@ -47,52 +47,38 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
     }
   };
 
-  const loginMutation = useMutation({
-    mutationFn: async (data: LoginUser) => {
-      return await apiRequest('POST', '/api/auth/login', data);
-    },
-    onSuccess: (user) => {
+  const onLoginSubmit = async (data: LoginUser) => {
+    try {
+      await login(data);
       toast({
         title: "Успешный вход",
         description: "Добро пожаловать в КодКвест!",
       });
-      onAuthSuccess(user);
-    },
-    onError: (error: any) => {
+      onAuthSuccess(data);
+    } catch (error: any) {
       toast({
         title: "Ошибка входа",
         description: error.message || "Неверный email или пароль",
         variant: "destructive",
       });
-    },
-  });
+    }
+  };
 
-  const registerMutation = useMutation({
-    mutationFn: async (data: InsertUser) => {
-      return await apiRequest('POST', '/api/auth/register', data);
-    },
-    onSuccess: (user) => {
+  const onRegisterSubmit = async (data: InsertUser) => {
+    try {
+      await register(data);
       toast({
         title: "Успешная регистрация",
         description: "Аккаунт создан! Добро пожаловать в КодКвест!",
       });
-      onAuthSuccess(user);
-    },
-    onError: (error: any) => {
+      onAuthSuccess(data);
+    } catch (error: any) {
       toast({
         title: "Ошибка регистрации",
         description: error.message || "Пользователь с таким email уже существует",
         variant: "destructive",
       });
-    },
-  });
-
-  const onLoginSubmit = (data: LoginUser) => {
-    loginMutation.mutate(data);
-  };
-
-  const onRegisterSubmit = (data: InsertUser) => {
-    registerMutation.mutate(data);
+    }
   };
 
   return (
