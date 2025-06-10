@@ -9,11 +9,12 @@ interface LevelScreenProps {
   onSelectLevel: (levelId: number) => void;
   onStartQuiz: () => void;
   onAuth: () => void;
+  onLogout?: () => void;
   isAuthenticated: boolean;
   username?: string;
 }
 
-export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, isAuthenticated, username }: LevelScreenProps) {
+export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogout, isAuthenticated, username }: LevelScreenProps) {
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
   const { isLevelCompleted, isLevelUnlocked, getCompletedCount, resetProgress, refreshProgress, isResetting } = useProgress();
@@ -87,9 +88,19 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, isAuth
               * Выберите свой путь *
             </h2>
             {isAuthenticated && (
-              <p className="text-undertale-green text-sm mt-1">
-                Добро пожаловать, {username}! Все уровни доступны.
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="text-undertale-green text-sm mt-1">
+                  Добро пожаловать, {username}! Все уровни доступны.
+                </p>
+                {onLogout && (
+                  <button
+                    onClick={onLogout}
+                    className="text-undertale-red hover:text-red-400 text-sm ml-4 pixel-border px-2 py-1 bg-undertale-panel"
+                  >
+                    Выйти
+                  </button>
+                )}
+              </div>
             )}
             {!isAuthenticated && (
               <p className="text-undertale-cyan text-sm mt-1">
