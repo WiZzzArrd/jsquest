@@ -16,7 +16,7 @@ interface AuthScreenProps {
 export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
   const [isLogin, setIsLogin] = useState(true);
   const { toast } = useToast();
-  const { login, register } = useAuth();
+  const { login, register, isLoading } = useAuth();
 
   const loginForm = useForm<LoginUser>({
     resolver: zodResolver(loginSchema),
@@ -133,10 +133,10 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
                 <PixelButton
                   variant="success"
                   className="w-full"
-                  disabled={loginMutation.isPending}
+                  disabled={isLoading}
                   onClick={loginForm.handleSubmit(onLoginSubmit)}
                 >
-                  {loginMutation.isPending ? 'ВХОД...' : 'ВОЙТИ'}
+                  {isLoading ? 'ВХОД...' : 'ВОЙТИ'}
                 </PixelButton>
               </div>
             </form>
@@ -204,10 +204,10 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
                 <PixelButton
                   variant="success"
                   className="w-full"
-                  disabled={registerMutation.isPending}
+                  disabled={isLoading}
                   onClick={registerForm.handleSubmit(onRegisterSubmit)}
                 >
-                  {registerMutation.isPending ? 'РЕГИСТРАЦИЯ...' : 'ЗАРЕГИСТРИРОВАТЬСЯ'}
+                  {isLoading ? 'РЕГИСТРАЦИЯ...' : 'ЗАРЕГИСТРИРОВАТЬСЯ'}
                 </PixelButton>
               </div>
             </form>
