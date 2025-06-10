@@ -5,19 +5,21 @@ import type { Progress } from '@shared/schema';
 
 const STORAGE_KEY = 'codequest_progress';
 
-// Local storage functions
-const getLocalProgress = (): Record<number, boolean> => {
+// Local storage functions with user-specific keys
+const getLocalProgress = (userId?: number): Record<number, boolean> => {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const key = userId ? `${STORAGE_KEY}_${userId}` : `${STORAGE_KEY}_anonymous`;
+    const stored = localStorage.getItem(key);
     return stored ? JSON.parse(stored) : {};
   } catch {
     return {};
   }
 };
 
-const setLocalProgress = (progress: Record<number, boolean>) => {
+const setLocalProgress = (progress: Record<number, boolean>, userId?: number) => {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    const key = userId ? `${STORAGE_KEY}_${userId}` : `${STORAGE_KEY}_anonymous`;
+    localStorage.setItem(key, JSON.stringify(progress));
   } catch {
     // Ignore storage errors
   }
@@ -51,11 +53,11 @@ export function useProgress() {
           return progressMap;
         }
         // Fallback to local storage
-        return getLocalProgress();
+        return getLocalProgress(user?.id);
       } catch (error) {
         console.error('Failed to fetch progress:', error);
         // Fallback to local storage
-        return getLocalProgress();
+        return getLocalProgress(user?.id);
       }
     },
     staleTime: 0,
@@ -88,9 +90,9 @@ export function useProgress() {
       } catch (error) {
         console.error('Failed to save progress:', error);
         // Fallback to local storage
-        const currentProgress = getLocalProgress();
+        const currentProgress = getLocalProgress(user?.id);
         const newProgress = { ...currentProgress, [levelId]: true };
-        setLocalProgress(newProgress);
+        setLocalProgress(newProgress, user?.id);
         return newProgress;
       }
     },
@@ -133,7 +135,7 @@ export function useProgress() {
       } catch (error) {
         console.error('Failed to reset progress:', error);
         // Fallback to local storage
-        setLocalProgress({});
+        setLocalProgress({}, user?.id);
         return {};
       }
     },

@@ -68,8 +68,12 @@ export function useAuth() {
       return await apiRequest('POST', '/api/auth/login', userData);
     },
     onSuccess: (data) => {
-      // Clear any existing local progress data
-      localStorage.removeItem('codequest_progress');
+      // Clear all existing local progress data for all users
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('codequest_progress')) {
+          localStorage.removeItem(key);
+        }
+      });
       
       setToken(data.token);
       setUser(data.user);
@@ -86,8 +90,12 @@ export function useAuth() {
       return await apiRequest('POST', '/api/auth/register', userData);
     },
     onSuccess: (data) => {
-      // Clear any existing local progress data
-      localStorage.removeItem('codequest_progress');
+      // Clear all existing local progress data for all users
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('codequest_progress')) {
+          localStorage.removeItem(key);
+        }
+      });
       
       setToken(data.token);
       setUser(data.user);
