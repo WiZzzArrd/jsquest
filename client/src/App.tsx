@@ -61,7 +61,11 @@ function AppContent() {
   };
 
   const handleAuthSuccess = (userData: any) => {
-    setCurrentScreen('levels');
+    // Force component re-render by briefly changing screen
+    setCurrentScreen('start');
+    setTimeout(() => {
+      setCurrentScreen('levels');
+    }, 100);
   };
 
   const handleLogout = () => {
