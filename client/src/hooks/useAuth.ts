@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import type { InsertUser, LoginUser } from '@shared/schema';
@@ -9,35 +9,32 @@ interface User {
   email: string;
 }
 
-interface AuthContextType {
+interface AuthState {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (userData: LoginUser) => Promise<void>;
-  register: (userData: InsertUser) => Promise<void>;
-  logout: () => void;
 }
-
-const AuthContext = createContext<AuthContextType | null>(null);
 
 const TOKEN_KEY = 'codequest_token';
 const USER_KEY = 'codequest_user';
 
 export function useAuth() {
-  const [token, setToken] = useState<string | null>(() => {
+  const [authState, setAuthState] = useState<AuthState>(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem(TOKEN_KEY);
-    }
-    return null;
-  });
-
-  const [user, setUser] = useState<User | null>(() => {
-    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem(TOKEN_KEY);
       const savedUser = localStorage.getItem(USER_KEY);
-      return savedUser ? JSON.parse(savedUser) : null;
+      const user = savedUser ? JSON.parse(savedUser) : null;
+      return {
+        token,
+        user,
+        isAuthenticated: !!(token && user)
+      };
     }
-    return null;
+    return {
+      token: null,
+      user: null,
+      isAuthenticated: false
+    };
   });
 
   const queryClient = useQueryClient();
@@ -46,14 +43,17 @@ export function useAuth() {
   const { isLoading } = useQuery({
     queryKey: ['/api/auth/me'],
     queryFn: async () => {
-      if (!token) {
-        setUser(null);
+      if (!authState.token) {
         return null;
       }
       
       try {
         const userData = await apiRequest('GET', '/api/auth/me');
-        setUser(userData);
+        setAuthState(prev => ({ 
+          ...prev, 
+          user: userData, 
+          isAuthenticated: true 
+        }));
         localStorage.setItem(USER_KEY, JSON.stringify(userData));
         return userData;
       } catch (error) {
@@ -62,7 +62,7 @@ export function useAuth() {
         return null;
       }
     },
-    enabled: !!token,
+    enabled: !!authState.token && !authState.user,
     retry: false,
   });
 
@@ -80,8 +80,11 @@ export function useAuth() {
         }
       });
       
-      setToken(data.token);
-      setUser(data.user);
+      setAuthState({
+        token: data.token,
+        user: data.user,
+        isAuthenticated: true
+      });
       localStorage.setItem(TOKEN_KEY, data.token);
       localStorage.setItem(USER_KEY, JSON.stringify(data.user));
       
@@ -102,8 +105,11 @@ export function useAuth() {
         }
       });
       
-      setToken(data.token);
-      setUser(data.user);
+      setAuthState({
+        token: data.token,
+        user: data.user,
+        isAuthenticated: true
+      });
       localStorage.setItem(TOKEN_KEY, data.token);
       localStorage.setItem(USER_KEY, JSON.stringify(data.user));
       
@@ -121,26 +127,21 @@ export function useAuth() {
   };
 
   const logout = () => {
-    setToken(null);
-    setUser(null);
+    setAuthState({
+      token: null,
+      user: null,
+      isAuthenticated: false
+    });
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     localStorage.removeItem('codequest_progress');
     queryClient.clear();
   };
 
-  // Initialize user from localStorage on mount
-  useEffect(() => {
-    if (token && !user) {
-      // Force re-fetch user data if we have token but no user
-      queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
-    }
-  }, [token, user, queryClient]);
-
   return {
-    user,
-    token,
-    isAuthenticated: !!user,
+    user: authState.user,
+    token: authState.token,
+    isAuthenticated: authState.isAuthenticated,
     isLoading: isLoading || loginMutation.isPending || registerMutation.isPending,
     login,
     register,
