@@ -103,7 +103,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
         </h2>
 
         {isLogin ? (
-          <Form {...loginForm}>
+          <Form {...loginForm} key="login-form">
             <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
               <FormField
                 control={loginForm.control}
@@ -114,6 +114,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
                     <FormControl>
                       <Input
                         {...field}
+                        key="login-email"
                         type="email"
                         placeholder="example@mail.com"
                         className="bg-black border-gray-600 text-white"
@@ -132,6 +133,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
                     <FormControl>
                       <Input
                         {...field}
+                        key="login-password"
                         type="password"
                         placeholder="••••••"
                         className="bg-black border-gray-600 text-white"
@@ -154,7 +156,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
             </form>
           </Form>
         ) : (
-          <Form {...registerForm}>
+          <Form {...registerForm} key="register-form">
             <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
               <FormField
                 control={registerForm.control}
@@ -165,6 +167,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
                     <FormControl>
                       <Input
                         {...field}
+                        key="register-username"
                         placeholder="Введите имя"
                         className="bg-black border-gray-600 text-white"
                       />
@@ -182,6 +185,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
                     <FormControl>
                       <Input
                         {...field}
+                        key="register-email"
                         type="email"
                         placeholder="example@mail.com"
                         className="bg-black border-gray-600 text-white"
@@ -200,6 +204,7 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
                     <FormControl>
                       <Input
                         {...field}
+                        key="register-password"
                         type="password"
                         placeholder="Минимум 6 символов"
                         className="bg-black border-gray-600 text-white"
