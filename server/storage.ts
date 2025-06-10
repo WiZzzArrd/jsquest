@@ -5,10 +5,11 @@ import { eq, and } from "drizzle-orm";
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  getUserProgress(userId: string): Promise<Progress[]>;
+  getUserProgress(userId: number): Promise<Progress[]>;
   updateProgress(progress: InsertProgress): Promise<Progress>;
-  resetUserProgress(userId: string): Promise<void>;
+  resetUserProgress(userId: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -30,7 +31,12 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async getUserProgress(userId: string): Promise<Progress[]> {
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
+  }
+
+  async getUserProgress(userId: number): Promise<Progress[]> {
     return await db.select().from(progress).where(eq(progress.userId, userId));
   }
 
@@ -71,7 +77,7 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async resetUserProgress(userId: string): Promise<void> {
+  async resetUserProgress(userId: number): Promise<void> {
     await db.delete(progress).where(eq(progress.userId, userId));
   }
 }
