@@ -18,6 +18,11 @@ function AppContent() {
   
   // Use centralized auth state
   const { isAuthenticated, user, logout } = useAuth();
+  
+  // Debug auth state
+  useEffect(() => {
+    console.log('App auth state changed:', { isAuthenticated, user: user?.username });
+  }, [isAuthenticated, user]);
 
   // Clear old progress data on app load
   useEffect(() => {

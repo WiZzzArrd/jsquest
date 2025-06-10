@@ -68,6 +68,8 @@ export function useAuth() {
       return await apiRequest('POST', '/api/auth/login', userData);
     },
     onSuccess: (data) => {
+      console.log('Login success, setting user:', data.user);
+      
       // Clear all existing local progress data for all users
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('codequest_progress')) {
