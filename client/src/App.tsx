@@ -52,6 +52,18 @@ function AppContent() {
     setCurrentScreen('levels');
   };
 
+  const handleLogout = () => {
+    // Clear local state
+    setIsAuthenticated(false);
+    setUser(null);
+    
+    // Clear localStorage
+    localStorage.removeItem('token');
+    
+    // Redirect to start screen
+    setCurrentScreen('start');
+  };
+
   const handleBackToLevels = () => {
     setCurrentScreen('levels');
   };
@@ -83,6 +95,7 @@ function AppContent() {
           onStart={handleStart} 
           onStartQuiz={handleStartQuiz}
           onAuth={handleAuth}
+          onLogout={handleLogout}
           isAuthenticated={isAuthenticated}
           username={user?.username}
         />
@@ -92,6 +105,7 @@ function AppContent() {
           onSelectLevel={handleSelectLevel} 
           onStartQuiz={handleStartQuiz}
           onAuth={handleAuth}
+          onLogout={handleLogout}
           isAuthenticated={isAuthenticated}
           username={user?.username}
         />
