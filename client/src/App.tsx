@@ -46,8 +46,8 @@ function AppContent() {
   };
 
   const handleSelectLevel = (levelId: number) => {
-    // Check if level requires authentication
-    if (levelId >= 2 && !isAuthenticated) {
+    // All levels require authentication
+    if (!isAuthenticated) {
       setCurrentScreen('auth');
       return;
     }
@@ -80,8 +80,8 @@ function AppContent() {
   const handleNextLevel = () => {
     const nextLevel = currentLevel + 1;
     
-    // Check if next level requires authentication
-    if (nextLevel >= 2 && !isAuthenticated) {
+    // All levels require authentication
+    if (!isAuthenticated) {
       setCurrentScreen('auth');
       return;
     }

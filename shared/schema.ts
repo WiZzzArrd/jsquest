@@ -16,7 +16,7 @@ export const progress = pgTable("progress", {
   levelId: integer("level_id").notNull(),
   completed: boolean("completed").default(false),
   score: integer("score").default(0),
-  completedAt: timestamp("completed_at"),
+  completedAt: timestamp("completed_at").defaultNow(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({

@@ -28,8 +28,8 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
   const totalLevels = levels.length;
 
   const handleLevelClick = (levelId: number) => {
-    // Check if level requires authentication
-    if (levelId >= 2 && !isAuthenticated) {
+    // All levels require authentication
+    if (!isAuthenticated) {
       onAuth();
       return;
     }
@@ -55,7 +55,7 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
   };
 
   const getLevelNodeClass = (levelId: number) => {
-    if (levelId >= 2 && !isAuthenticated) {
+    if (!isAuthenticated) {
       return 'level-node auth-required';
     } else if (isLevelCompleted(levelId)) {
       return 'level-node completed';
@@ -67,7 +67,7 @@ export default function LevelScreen({ onSelectLevel, onStartQuiz, onAuth, onLogo
   };
 
   const getLevelNodeContent = (levelId: number) => {
-    if (levelId >= 2 && !isAuthenticated) {
+    if (!isAuthenticated) {
       return <div><div className="text-2xl">🔐</div><div>{levelId + 1}</div></div>;
     } else if (isLevelCompleted(levelId)) {
       return <div><div className="text-2xl">✓</div><div>{levelId + 1}</div></div>;
