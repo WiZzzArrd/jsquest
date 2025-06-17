@@ -10,9 +10,13 @@ interface AuthRequest extends Request {
   user?: any;
 }
 
-const authenticateToken = async (req: AuthRequest, res: Response, next: NextFunction) => {
+const authenticateToken = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
     req.userId = undefined;
@@ -80,17 +84,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/progress", async (req: AuthRequest, res) => {
     try {
       let userId: number | string;
-      
+
       if (req.userId) {
         // Authenticated user
         userId = req.userId;
       } else {
         // Anonymous user - fallback to string ID for compatibility
         userId = "anonymous";
-        const progress = JSON.parse(req.headers['x-local-progress'] as string || '[]');
+        const progress = JSON.parse(
+          (req.headers["x-local-progress"] as string) || "[]"
+        );
         return res.json(progress);
       }
-      
+
       const progress = await storage.getUserProgress(userId as number);
       res.json(progress);
     } catch (error) {
@@ -106,8 +112,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...req.body,
         userId: req.userId as number,
       });
-      
-      console.log('Saving progress for user:', req.userId, 'data:', validatedData);
+
+      console.log(
+        "Saving progress for user:",
+        req.userId,
+        "data:",
+        validatedData
+      );
       const progress = await storage.updateProgress(validatedData);
       res.json(progress);
     } catch (error) {
