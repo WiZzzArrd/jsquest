@@ -2,7 +2,7 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { registerUser, loginUser, getUserFromToken } from "./auth";
-import { insertProgressSchema } from "@shared/schema";
+import { insertProgressSchema, updateProgressSchema } from "@shared/schema";
 
 // Auth middleware
 interface AuthRequest extends Request {
