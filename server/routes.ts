@@ -116,6 +116,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update progress with performance metrics
+  app.put("/api/progress/:levelId/metrics", requireAuth, async (req: AuthRequest, res) => {
+    try {
+      const levelId = parseInt(req.params.levelId);
+      const validatedData = updateProgressSchema.parse(req.body);
+      
+      const progress = await storage.updateProgressWithMetrics(
+        req.userId as number,
+        levelId,
+        validatedData
+      );
+      res.json(progress);
+    } catch (error) {
+      console.error("Error updating progress with metrics:", error);
+      res.status(400).json({ message: "Invalid progress data" });
+    }
+  });
+
+  // Get user difficulty profile
+  app.get("/api/difficulty-profile", requireAuth, async (req: AuthRequest, res) => {
+    try {
+      const profile = await storage.getUserDifficultyProfile(req.userId as number);
+      res.json(profile || {
+        currentDifficultyLevel: 1,
+        adaptiveMultiplier: 100,
+        successRate: 100,
+        averageAttempts: 1,
+        averageCompletionTime: 0
+      });
+    } catch (error) {
+      console.error("Error fetching difficulty profile:", error);
+      res.status(500).json({ message: "Failed to fetch difficulty profile" });
+    }
+  });
+
   // Reset user progress
   app.delete("/api/progress", async (req: AuthRequest, res) => {
     try {

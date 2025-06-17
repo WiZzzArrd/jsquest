@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import PixelButton from '@/components/PixelButton';
 import SuccessModal from '@/components/SuccessModal';
+import DifficultyIndicator from '@/components/DifficultyIndicator';
 import { levels } from '@/data/levels';
 import { useProgress } from '@/hooks/useProgress';
+import { usePerformanceTracker } from '@/hooks/usePerformanceTracker';
+import { useDifficultyProfile } from '@/hooks/useDifficultyProfile';
+import { Clock, RotateCcw, Lightbulb } from 'lucide-react';
 
 interface GameScreenProps {
   levelId: number;
@@ -13,17 +17,19 @@ interface GameScreenProps {
 
 export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticated = false }: GameScreenProps) {
   const [code, setCode] = useState('');
-  const [console, setConsole] = useState<string[]>(['Вывод консоли будет отображаться здесь...']);
+  const [consoleOutput, setConsoleOutput] = useState<string[]>(['Вывод консоли будет отображаться здесь...']);
   const [showSuccess, setShowSuccess] = useState(false);
   const [solutionShown, setSolutionShown] = useState(false);
   const { completeLevel, isLevelCompleted } = useProgress();
+  const { metrics, incrementAttempts, incrementHints, completeLevel: completeWithMetrics, formatTime } = usePerformanceTracker(levelId);
+  const { profile } = useDifficultyProfile();
 
   // Reset code when level changes
   useEffect(() => {
     const level = levels[levelId];
     if (level) {
       setCode(level.initialCode || '');
-      setConsole(['Вывод консоли будет отображаться здесь...']);
+      setConsoleOutput(['Вывод консоли будет отображаться здесь...']);
       setShowSuccess(false);
       setSolutionShown(false);
     }
@@ -41,7 +47,7 @@ export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticat
 
   const runCode = () => {
     try {
-      setConsole(['Код запущен...']);
+      setConsoleOutput(['Код запущен...']);
       
       // Try to execute the actual code
       setTimeout(() => {
