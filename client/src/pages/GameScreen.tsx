@@ -185,14 +185,14 @@ export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticat
   const isLastLevel = levelId === levels.length - 1;
 
   return (
-    <div className="min-h-screen bg-undertale-dark flex">
+    <div className="min-h-screen bg-undertale-dark flex flex-col lg:flex-row overflow-hidden">
       {/* Tutorial Panel */}
-      <div className="w-1/4 p-4">
-        <div className="pixel-border bg-undertale-panel h-full p-4 flex flex-col">
-          <h3 className="text-lg mb-4 text-undertale-yellow border-b border-white pb-2 font-bold">
+      <div className="w-full lg:w-1/4 p-2 sm:p-4 order-2 lg:order-1">
+        <div className="pixel-border bg-undertale-panel h-40 sm:h-48 lg:h-full p-2 sm:p-4 flex flex-col">
+          <h3 className="text-sm sm:text-lg mb-2 sm:mb-4 text-undertale-yellow border-b border-white pb-1 sm:pb-2 font-bold">
             * Обучение *
           </h3>
-          <div className="text-sm space-y-3 overflow-y-auto flex-1">
+          <div className="text-xs sm:text-sm space-y-2 sm:space-y-3 overflow-y-auto flex-1">
             <div className="whitespace-pre-wrap text-white">
               {level.tutorial}
             </div>
@@ -201,58 +201,59 @@ export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticat
       </div>
 
       {/* Main Game Area */}
-      <div className="flex-1 p-4 flex flex-col">
+      <div className="flex-1 p-2 sm:p-4 flex flex-col order-1 lg:order-2">
         {/* Task Description */}
-        <div className="pixel-border bg-undertale-panel p-4 mb-4">
-          <h2 className="text-xl mb-2 text-undertale-yellow font-bold">
+        <div className="pixel-border bg-undertale-panel p-2 sm:p-4 mb-2 sm:mb-4">
+          <h2 className="text-lg sm:text-xl mb-2 text-undertale-yellow font-bold">
             {level.taskTitle}
           </h2>
-          <p className="mb-4 text-white">
+          <p className="mb-3 sm:mb-4 text-white text-sm sm:text-base">
             {level.taskDescription}
           </p>
           
           {/* Expected Output */}
-          <div className="bg-black border-2 border-undertale-green p-3 text-sm">
+          <div className="bg-black border-2 border-undertale-green p-2 sm:p-3 text-xs sm:text-sm">
             <p className="text-undertale-green mb-1 font-bold">Ожидаемый результат:</p>
-            <code className="text-white whitespace-pre-wrap">{level.expectedOutput}</code>
+            <code className="text-white whitespace-pre-wrap break-words">{level.expectedOutput}</code>
           </div>
         </div>
 
         {/* Code Editor */}
-        <div className="flex-1 mb-4">
-          <div className="code-editor h-full p-4 text-sm">
+        <div className="flex-1 mb-2 sm:mb-4">
+          <div className="code-editor h-full p-2 sm:p-4 text-xs sm:text-sm">
             <div className="mb-2 text-undertale-green">// Исправьте ошибки в этом коде:</div>
             <textarea 
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              className="w-full h-5/6 bg-transparent text-white resize-none outline-none font-mono"
+              className="w-full h-5/6 bg-transparent text-white resize-none outline-none font-mono text-xs sm:text-sm"
               spellCheck="false"
+              placeholder="Введите ваш код здесь..."
             />
           </div>
         </div>
 
         {/* Input Panel */}
-        <div className="pixel-border bg-undertale-panel p-4">
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <PixelButton onClick={runCode} variant="success">
-              ЗАПУСТИТЬ КОД
+        <div className="pixel-border bg-undertale-panel p-2 sm:p-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:flex-wrap items-center gap-1 sm:gap-2 mb-2 sm:mb-4">
+            <PixelButton onClick={runCode} variant="success" className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">
+              ЗАПУСТИТЬ
             </PixelButton>
-            <PixelButton onClick={checkSolution} variant="warning">
-              ПРОВЕРИТЬ РЕШЕНИЕ
+            <PixelButton onClick={checkSolution} variant="warning" className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">
+              ПРОВЕРИТЬ
             </PixelButton>
-            <PixelButton onClick={getHint} variant="primary">
+            <PixelButton onClick={getHint} variant="primary" className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">
               ПОДСКАЗКА
             </PixelButton>
-            <PixelButton onClick={showSolution} variant="danger">
-              ПОКАЗАТЬ РЕШЕНИЕ
+            <PixelButton onClick={showSolution} variant="danger" className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">
+              РЕШЕНИЕ
             </PixelButton>
-            <PixelButton onClick={onBack} variant="secondary">
+            <PixelButton onClick={onBack} variant="secondary" className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 col-span-2 sm:col-span-1">
               НАЗАД
             </PixelButton>
           </div>
           
           {/* Output Console */}
-          <div className="bg-black border-2 border-gray-600 p-3 h-24 overflow-y-auto text-sm">
+          <div className="bg-black border-2 border-gray-600 p-2 sm:p-3 h-20 sm:h-24 overflow-y-auto text-xs sm:text-sm">
             {console.map((line, index) => (
               <div key={index} className={`
                 ${line.includes('✓') ? 'text-undertale-green' : ''}
