@@ -113,54 +113,52 @@ export default function LevelScreen({
   };
 
   return (
-    <div className="min-h-screen bg-undertale-dark flex flex-col">
+    <div className="min-h-screen bg-undertale-dark flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="pixel-border bg-undertale-panel p-4 m-2 md:m-4">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0">
-          <div>
-            <h2 className="text-xl md:text-2xl text-undertale-yellow font-bold text-center md:text-left">
+      <div className="pixel-border bg-undertale-panel p-2 sm:p-4 m-1 sm:m-2 md:m-4 flex-shrink-0">
+        <div className="flex flex-col space-y-3 sm:space-y-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+            <h2 className="text-lg sm:text-xl md:text-2xl text-undertale-yellow font-bold text-center sm:text-left">
               * Выберите свой путь *
             </h2>
-            {isAuthenticated && (
-              <div className="flex items-center justify-between">
-                {onLogout && (
-                  <button
-                    onClick={onLogout}
-                    className="text-undertale-red hover:text-red-400 text-sm ml-4 pixel-border px-2 py-1 bg-undertale-panel"
-                  >
-                    Выйти
-                  </button>
-                )}
-              </div>
+            {isAuthenticated && onLogout && (
+              <button
+                onClick={onLogout}
+                className="text-undertale-red hover:text-red-400 text-xs sm:text-sm pixel-border px-2 py-1 bg-undertale-panel self-center sm:self-auto"
+              >
+                Выйти
+              </button>
             )}
           </div>
-          <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-white">Прогресс:</span>
-              <ProgressBar current={completedCount} total={totalLevels} />
-              <span className="text-undertale-green text-sm">
+          
+          <div className="flex flex-col space-y-2">
+            <div className="flex items-center justify-center sm:justify-start space-x-2">
+              <span className="text-xs sm:text-sm text-white">Прогресс:</span>
+              <ProgressBar current={completedCount} total={totalLevels} className="flex-1 max-w-32 sm:max-w-none" />
+              <span className="text-undertale-green text-xs sm:text-sm">
                 {completedCount}/{totalLevels}
               </span>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2">
+            
+            <div className="grid grid-cols-3 gap-1 sm:gap-2 sm:flex sm:flex-row">
               <PixelButton
                 onClick={onStartQuiz}
                 variant="warning"
-                className="text-xs"
+                className="text-xs px-2 py-1"
               >
                 БЛИЦ-ТЕСТ
               </PixelButton>
               <PixelButton
                 onClick={refreshProgress}
                 variant="primary"
-                className="text-xs"
+                className="text-xs px-2 py-1"
               >
                 ОБНОВИТЬ
               </PixelButton>
               <PixelButton
                 onClick={() => setShowResetModal(true)}
                 variant="danger"
-                className="text-xs"
+                className="text-xs px-2 py-1"
                 disabled={isResetting || completedCount === 0}
               >
                 {isResetting ? "СБРОС..." : "СБРОСИТЬ"}
@@ -171,13 +169,13 @@ export default function LevelScreen({
       </div>
 
       {/* Level Map Container */}
-      <div className="flex-1 overflow-y-auto p-2 md:p-4">
+      <div className="flex-1 overflow-y-auto p-2 sm:p-3 md:p-4">
         {/* Группа 1: Базовые уровни (0-9) */}
-        <div className="mb-6 md:mb-8">
-          <h3 className="text-base md:text-lg text-undertale-cyan mb-3 md:mb-4 font-bold text-center md:text-left">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <h3 className="text-sm sm:text-base md:text-lg text-undertale-cyan mb-2 sm:mb-3 md:mb-4 font-bold text-center sm:text-left">
             🟡 Основы JavaScript
           </h3>
-          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-4 justify-items-center">
+          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-1 sm:gap-2 md:gap-4 justify-items-center">
             {levels.slice(0, 10).map((level) => (
               <div
                 key={level.id}
@@ -191,11 +189,11 @@ export default function LevelScreen({
         </div>
 
         {/* Группа 2: Средние уровни (10-19) */}
-        <div className="mb-6 md:mb-8">
-          <h3 className="text-base md:text-lg text-undertale-purple mb-3 md:mb-4 font-bold text-center md:text-left">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <h3 className="text-sm sm:text-base md:text-lg text-undertale-purple mb-2 sm:mb-3 md:mb-4 font-bold text-center sm:text-left">
             🟠 Средний уровень
           </h3>
-          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-4 justify-items-center">
+          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-1 sm:gap-2 md:gap-4 justify-items-center">
             {levels.slice(10, 20).map((level) => (
               <div
                 key={level.id}

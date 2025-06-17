@@ -99,9 +99,9 @@ export default function AuthScreen({ onAuthSuccess, onBack }: AuthScreenProps) {
   };
 
   return (
-    <div className="min-h-screen bg-undertale-dark flex items-center justify-center p-4">
-      <div className="pixel-border bg-undertale-panel p-8 max-w-md w-full">
-        <h2 className="text-2xl text-undertale-yellow font-bold mb-6 text-center">
+    <div className="min-h-screen bg-undertale-dark flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+      <div className="pixel-border bg-undertale-panel p-4 sm:p-8 max-w-md w-full my-4">
+        <h2 className="text-xl sm:text-2xl text-undertale-yellow font-bold mb-4 sm:mb-6 text-center">
           {isLogin ? "* Вход в систему *" : "* Регистрация *"}
         </h2>
 
