@@ -98,7 +98,7 @@ function AppContent() {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden">
+    <div className="min-h-screen w-full overflow-x-hidden">
       {currentScreen === 'start' && (
         <StartScreen 
           onStart={handleStart} 
