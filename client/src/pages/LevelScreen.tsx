@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import PixelButton from "@/components/PixelButton";
 import ProgressBar from "@/components/ProgressBar";
 import ResetProgressModal from "@/components/ResetProgressModal";
-import DifficultyIndicator from "@/components/DifficultyIndicator";
 import { levels } from "@/data/levels";
 import { useProgress } from "@/hooks/useProgress";
 
@@ -170,13 +169,6 @@ export default function LevelScreen({
           </div>
         </div>
       </div>
-
-      {/* Adaptive Difficulty Display */}
-      {isAuthenticated && (
-        <div className="p-2 md:p-4">
-          <DifficultyIndicator />
-        </div>
-      )}
 
       {/* Level Map Container */}
       <div className="flex-1 overflow-y-auto p-2 md:p-4">

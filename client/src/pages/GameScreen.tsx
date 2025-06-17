@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react';
 import PixelButton from '@/components/PixelButton';
 import SuccessModal from '@/components/SuccessModal';
-import DifficultyIndicator from '@/components/DifficultyIndicator';
 import { levels } from '@/data/levels';
 import { useProgress } from '@/hooks/useProgress';
-import { usePerformanceTracker } from '@/hooks/usePerformanceTracker';
-import { useDifficultyProfile } from '@/hooks/useDifficultyProfile';
-import { Clock, RotateCcw, Lightbulb } from 'lucide-react';
 
 interface GameScreenProps {
   levelId: number;
@@ -17,19 +13,17 @@ interface GameScreenProps {
 
 export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticated = false }: GameScreenProps) {
   const [code, setCode] = useState('');
-  const [consoleOutput, setConsoleOutput] = useState<string[]>(['Вывод консоли будет отображаться здесь...']);
+  const [console, setConsole] = useState<string[]>(['Вывод консоли будет отображаться здесь...']);
   const [showSuccess, setShowSuccess] = useState(false);
   const [solutionShown, setSolutionShown] = useState(false);
   const { completeLevel, isLevelCompleted } = useProgress();
-  const { metrics, incrementAttempts, incrementHints, completeLevel: completeWithMetrics, formatTime } = usePerformanceTracker(levelId);
-  const { profile } = useDifficultyProfile();
 
   // Reset code when level changes
   useEffect(() => {
     const level = levels[levelId];
     if (level) {
       setCode(level.initialCode || '');
-      setConsoleOutput(['Вывод консоли будет отображаться здесь...']);
+      setConsole(['Вывод консоли будет отображаться здесь...']);
       setShowSuccess(false);
       setSolutionShown(false);
     }
@@ -47,7 +41,7 @@ export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticat
 
   const runCode = () => {
     try {
-      setConsoleOutput(['Код запущен...']);
+      setConsole(['Код запущен...']);
       
       // Try to execute the actual code
       setTimeout(() => {
@@ -68,7 +62,7 @@ export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticat
           
           // Simple validation - check if code has basic syntax
           if (!executableCode.trim()) {
-            setConsoleOutput(['Ошибка: Пустой код!']);
+            setConsole(['Ошибка: Пустой код!']);
             return;
           }
           
@@ -82,20 +76,20 @@ export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticat
             executeCode(mockConsole);
             
             if (capturedOutput.length > 0) {
-              setConsoleOutput(['Результат выполнения:', ...capturedOutput]);
+              setConsole(['Результат выполнения:', ...capturedOutput]);
             } else {
-              setConsoleOutput(['Код выполнен успешно (без вывода)']);
+              setConsole(['Код выполнен успешно (без вывода)']);
             }
           } catch (syntaxError) {
             // Show actual syntax errors
-            setConsoleOutput([`Ошибка выполнения: ${syntaxError}`]);
+            setConsole([`Ошибка выполнения: ${syntaxError}`]);
           }
         } catch (error) {
-          setConsoleOutput([`Ошибка: ${error}`]);
+          setConsole([`Ошибка: ${error}`]);
         }
       }, 300);
     } catch (error) {
-      setConsoleOutput([`Ошибка: ${error}`]);
+      setConsole([`Ошибка: ${error}`]);
     }
   };
 
@@ -108,14 +102,13 @@ export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticat
     
     // If code is identical to initial code, it's not solved
     if (normalizedCode === normalizedInitial) {
-      setConsoleOutput(['✗ Вы не изменили код! Сначала исправьте ошибки или добавьте недостающие части.']);
-      incrementAttempts();
+      setConsole(['✗ Вы не изменили код! Сначала исправьте ошибки или добавьте недостающие части.']);
       return;
     }
     
     // Check if using shown solution
     if (solutionShown && normalizedCode === normalizedSolution) {
-      setConsoleOutput(['⚠️ Вы использовали готовое решение! Попробуйте написать код самостоятельно для лучшего обучения.']);
+      setConsole(['⚠️ Вы использовали готовое решение! Попробуйте написать код самостоятельно для лучшего обучения.']);
       return;
     }
     
@@ -156,44 +149,27 @@ export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticat
     }
     
     if (isCorrect) {
-      setConsoleOutput(['✓ Решение правильное! Отлично!']);
+      setConsole(['✓ Решение правильное! Отлично!']);
       setTimeout(() => {
         if (!isLevelCompleted(levelId)) {
-          // Complete level with performance metrics for authenticated users
-          if (isAuthenticated) {
-            const score = calculateScore();
-            completeWithMetrics(score);
-          }
           completeLevel(levelId);
         }
         setShowSuccess(true);
       }, 1000);
     } else {
-      setConsoleOutput(['✗ Решение неправильное. Проверьте синтаксис и попробуйте снова.']);
-      incrementAttempts();
+      setConsole(['✗ Решение неправильное. Проверьте синтаксис и попробуйте снова.']);
     }
   };
 
   const getHint = () => {
     const randomHint = level.hints[Math.floor(Math.random() * level.hints.length)];
-    setConsoleOutput([randomHint]);
-    incrementHints();
+    setConsole([randomHint]);
   };
 
   const showSolution = () => {
     setCode(level.solution);
     setSolutionShown(true);
-    setConsoleOutput(['📖 Решение показано. Изучите код и попробуйте написать подобное самостоятельно на следующем уровне.']);
-  };
-
-  // Calculate score based on performance metrics
-  const calculateScore = (): number => {
-    const baseScore = 100;
-    const timeBonus = Math.max(0, 60 - metrics.timeSpent) * 0.5; // Bonus for completing quickly
-    const attemptPenalty = (metrics.attempts - 1) * 10; // Penalty for multiple attempts
-    const hintPenalty = metrics.hintsUsed * 5; // Penalty for using hints
-    
-    return Math.max(10, Math.round(baseScore + timeBonus - attemptPenalty - hintPenalty));
+    setConsole(['📖 Решение показано. Изучите код и попробуйте написать подобное самостоятельно на следующем уровне.']);
   };
 
   const handleNextLevel = () => {
@@ -275,27 +251,9 @@ export default function GameScreen({ levelId, onBack, onNextLevel, isAuthenticat
             </PixelButton>
           </div>
           
-          {/* Performance Metrics Display */}
-          {isAuthenticated && (
-            <div className="flex items-center gap-4 mb-4 p-2 bg-gray-50 rounded text-sm">
-              <div className="flex items-center gap-1">
-                <Clock className="w-4 h-4 text-blue-600" />
-                <span>Time: {formatTime(metrics.timeSpent)}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <RotateCcw className="w-4 h-4 text-orange-600" />
-                <span>Attempts: {metrics.attempts}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Lightbulb className="w-4 h-4 text-yellow-600" />
-                <span>Hints: {metrics.hintsUsed}</span>
-              </div>
-            </div>
-          )}
-
           {/* Output Console */}
           <div className="bg-black border-2 border-gray-600 p-3 h-24 overflow-y-auto text-sm">
-            {consoleOutput.map((line, index) => (
+            {console.map((line, index) => (
               <div key={index} className={`
                 ${line.includes('✓') ? 'text-undertale-green' : ''}
                 ${line.includes('✗') || line.includes('Error') ? 'text-undertale-red' : ''}
